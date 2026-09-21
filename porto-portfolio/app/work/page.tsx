@@ -1,12 +1,26 @@
 import type { Metadata } from "next";
-import WorkPage from "@/components/sections/Work-Page";
+import { Header } from "@/components/layout/Header";
+import { getWorkEditorialCategories } from "@/lib/data/portfolio-categories";
+import { EditorialWorkPanels } from "@/components/portfolio/EditorialWorkPanels";
 
 export const metadata: Metadata = {
-  title: "Work Archive — RAPHREV // Ajay Johnson",
+  title: "Work — RAPHREV // Editorial Photography",
   description:
-    "Explore the editorial motorsport and automotive visual storytelling archive by Ajay Johnson — Formula 1, endurance, hillclimb, and hypercar photography.",
+    "Full-screen editorial photography portfolio by Ajay Johnson — exploring Motorsports, Music, and Fashion.",
 };
 
-export default function Work() {
-  return <WorkPage />;
+export default function WorkPage() {
+  const editorialCategories = getWorkEditorialCategories();
+
+  return (
+    <div className="min-h-screen w-full flex flex-col text-off-white selection:bg-racing-red selection:text-off-white bg-carbon overflow-x-hidden">
+      {/* Existing Site Header & Navigation */}
+      <Header />
+
+      {/* Full-Viewport Height 3-Panel Editorial Section */}
+      <main className="w-full flex-grow flex flex-col">
+        <EditorialWorkPanels categories={editorialCategories} />
+      </main>
+    </div>
+  );
 }

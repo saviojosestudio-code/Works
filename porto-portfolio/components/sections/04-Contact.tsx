@@ -5,13 +5,9 @@ import Image from "next/image";
 import { RAPHREV_DATA } from "@/lib/data/portfolio-data";
 import { CheckCircle2 } from "lucide-react";
 
-interface ContactSectionProps {
-  onImageClick?: (src: string, alt: string) => void;
-}
+interface ContactSectionProps {}
 
-export const ContactSection: React.FC<ContactSectionProps> = ({
-  onImageClick,
-}) => {
+export const ContactSection: React.FC<ContactSectionProps> = () => {
   const { contact } = RAPHREV_DATA;
   const [formData, setFormData] = useState({
     name: "",
@@ -44,8 +40,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
         {/* Formula 1 Editorial Visual */}
         <div
-          onClick={() => onImageClick?.(contact.image, contact.imageAlt)}
-          className="group relative w-full aspect-[16/10] md:aspect-auto md:h-full min-h-[400px] md:min-h-[600px] overflow-hidden bg-transparent rounded-none sm:rounded-xl order-2 md:order-1 cursor-pointer"
+          className="group relative w-full aspect-[16/10] md:aspect-auto md:h-full min-h-[400px] md:min-h-[600px] overflow-hidden bg-transparent rounded-none sm:rounded-xl order-2 md:order-1"
         >
           <Image
             src={contact.image}
@@ -61,9 +56,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
           <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-off-white/90">
             <span className="font-mono text-[11px] uppercase tracking-wider">
               Yas Marina // Apex Light
-            </span>
-            <span className="text-[10px] uppercase tracking-widest text-titanium">
-              Expand ↗
             </span>
           </div>
         </div>

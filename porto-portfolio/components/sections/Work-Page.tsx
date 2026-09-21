@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { PhotoModal } from "@/components/ui/PhotoModal";
 import { RACING_EVENTS_DATA, EventPhoto } from "@/lib/data/event-gallery-data";
 
 export function WorkPage() {
@@ -14,7 +13,6 @@ export function WorkPage() {
     evt.photos.map((p) => ({ ...p, eventId: evt.id, eventTitle: evt.title }))
   );
 
-  const [selectedPhoto, setSelectedPhoto] = useState<EventPhoto | null>(null);
   const [filter, setFilter] = useState<"all" | "landscape" | "portrait">("all");
 
   const filteredPhotos = allPhotos.filter((p) => {
@@ -130,8 +128,7 @@ export function WorkPage() {
                 return (
                   <article
                     key={photo.id}
-                    onClick={() => setSelectedPhoto(photo)}
-                    className={`group cursor-pointer flex flex-col gap-4 ${spanClass}`}
+                    className={`group flex flex-col gap-4 ${spanClass}`}
                   >
                     <div
                       className={`relative w-full overflow-hidden rounded-none sm:rounded-xl bg-transparent transition-all duration-500 ${
@@ -171,16 +168,6 @@ export function WorkPage() {
 
       <Footer />
 
-      {/* Interactive PhotoModal */}
-      <PhotoModal
-        isOpen={!!selectedPhoto}
-        onClose={() => setSelectedPhoto(null)}
-        imageSrc={selectedPhoto?.image || ""}
-        imageAlt={selectedPhoto?.alt || ""}
-        title={selectedPhoto?.title}
-        subtitle={selectedPhoto?.subtitle}
-        location={selectedPhoto?.location}
-      />
     </div>
   );
 }

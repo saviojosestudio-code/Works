@@ -4,19 +4,16 @@ import React from "react";
 import Image from "next/image";
 import { RAPHREV_DATA } from "@/lib/data/portfolio-data";
 
-interface HeroSectionProps {
-  onImageClick?: (src: string, alt: string) => void;
-}
+interface HeroSectionProps {}
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onImageClick }) => {
+export const HeroSection: React.FC<HeroSectionProps> = () => {
   const { hero } = RAPHREV_DATA;
 
   return (
     <section id="home" className="flex flex-col w-full">
       {/* Full-bleed Hero Image */}
       <div
-        onClick={() => onImageClick?.(hero.image, hero.imageAlt)}
-        className="group relative w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[24/9] overflow-hidden cursor-pointer"
+        className="group relative w-full aspect-[16/9] sm:aspect-[21/9] md:aspect-[24/9] overflow-hidden"
       >
         <Image
           src={hero.image}
