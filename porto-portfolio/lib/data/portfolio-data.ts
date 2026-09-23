@@ -36,8 +36,7 @@ export const RAPHREV_DATA = {
 
   hero: {
     title: "RaphRev",
-    image:
-      "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=2000&q=90",
+    image: "/DSC09652.jpg",
     imageAlt:
       "Formula 1 race car accelerating down the main straight under circuit floodlights",
     badge: "Abu Dhabi // Twilight GP",
@@ -111,8 +110,7 @@ export const RAPHREV_DATA = {
     heading: "GET IN TOUCH",
     subheading: "Reach out and let's create something amazing together. Let's achieve greatness.",
     formTitle: "FILL THIS FORM OUT",
-    image:
-      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=90",
-    imageAlt: "Cinematic editorial photograph of Formula 1 car in Abu Dhabi at twilight",
+    image: "/DSC08714.jpg",
+    imageAlt: "GT Series endurance race cars lined up on track",
   },
 };

@@ -48,6 +48,7 @@ export const ContactSection: React.FC<ContactSectionProps> = () => {
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.02]"
+            style={{ objectPosition: "60% 65%" }}
           />
           {/* Base gradient — always present */}
           <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-carbon/20 to-transparent pointer-events-none" />
