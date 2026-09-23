@@ -4,11 +4,14 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { RAPHREV_DATA } from "@/lib/data/portfolio-data";
 import { CheckCircle2 } from "lucide-react";
+import { Bars } from "@/components/ui/bars";
+import { cn } from "@/lib/utils";
 
 interface ContactSectionProps {}
 
 export const ContactSection: React.FC<ContactSectionProps> = () => {
   const { contact } = RAPHREV_DATA;
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -40,15 +43,29 @@ export const ContactSection: React.FC<ContactSectionProps> = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
         {/* Formula 1 Editorial Visual */}
         <div
-          className="group relative w-full aspect-[16/10] md:aspect-auto md:h-full min-h-[400px] md:min-h-[600px] overflow-hidden bg-transparent rounded-none sm:rounded-xl order-2 md:order-1"
+          className="group relative w-full aspect-[16/10] md:aspect-auto md:h-full min-h-[400px] md:min-h-[600px] overflow-hidden bg-carbon rounded-none sm:rounded-xl order-2 md:order-1"
         >
+          {/* Loader while image is downloading */}
+          {!isImageLoaded && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-carbon z-10">
+              <Bars className="h-7 w-7 text-racing-red" bars={3} />
+              <span className="font-mono text-[10px] tracking-widest uppercase text-titanium/70">
+                Loading Visual
+              </span>
+            </div>
+          )}
+
           <Image
             src={contact.image}
             alt={contact.imageAlt}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.02]"
+            className={cn(
+              "object-cover transition-all duration-700 ease-out group-hover:scale-[1.02]",
+              isImageLoaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.01]"
+            )}
             style={{ objectPosition: "60% 65%" }}
+            onLoad={() => setIsImageLoaded(true)}
           />
           {/* Base gradient — always present */}
           <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-carbon/20 to-transparent pointer-events-none" />
