@@ -35,7 +35,7 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
             "object-cover grayscale-[15%] contrast-[1.05] transition-all duration-700 group-hover:scale-[1.02]",
             isLoaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.01]"
           )}
-          style={{ objectPosition: "center 76%" }}
+          style={{ objectPosition: "center 80%" }}
           onLoad={() => setIsLoaded(true)}
         />
         {/* Base vignette — always present */}
