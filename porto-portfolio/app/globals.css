@@ -9,19 +9,19 @@
   --color-primary: #F3F3EF;
 
   /*
-   * Typography — Moon Walk system
+   * Typography — Moon Walk global font
    * Primary: Moon Walk
-   * Fallback: Montserrat (loaded web font) → Arial → sans-serif
+   * Fallback: Helvetica Neue → Arial → sans-serif
    */
-  --font-sans: var(--font-moonwalk), var(--font-montserrat), Arial, sans-serif;
+  --font-sans: var(--font-moon-walk), "Helvetica Neue", Helvetica, Arial, sans-serif;
 
   /*
    * Mono / label style
    */
-  --font-mono: var(--font-moonwalk), var(--font-montserrat), "Arial Narrow", Arial, sans-serif;
+  --font-mono: var(--font-moon-walk), "Helvetica Neue", Helvetica, "Arial Narrow", Arial, sans-serif;
 
-  /* Display */
-  --font-display: var(--font-moonwalk), var(--font-montserrat), Arial, sans-serif;
+  /* Display — editorial wordmark/hero treatment */
+  --font-display: var(--font-moon-walk), "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 :root {
@@ -37,7 +37,6 @@ body {
   background: transparent;
   color: #F3F3EF;
   font-family: var(--font-sans);
-  /* Helvetica-optimised rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -46,9 +45,9 @@ body {
   overscroll-behavior: none;
 }
 
-/* Consistent letter-spacing baseline for Moon Walk */
+/* Consistent letter-spacing baseline */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   letter-spacing: -0.02em;
   line-height: 1.1;
   font-weight: 700;
@@ -59,7 +58,7 @@ p, li, a, span, label, input, textarea, button, blockquote {
   line-height: 1.6;
 }
 
-/* Moon Walk label / metadata style — replaces font-mono intent */
+/* Label / metadata style */
 .font-mono {
   font-family: var(--font-mono);
   letter-spacing: 0.08em;
