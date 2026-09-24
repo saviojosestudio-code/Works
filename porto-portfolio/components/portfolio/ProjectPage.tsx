@@ -7,7 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Category, Project } from "@/lib/data/portfolio-categories";
 import { PhotoGallery } from "./PhotoGallery";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CoverflowCarousel, CoverflowSlide } from "@/components/ui/coverflow-carousel";
 
 interface ProjectPageProps {
   category: Category;
@@ -22,6 +22,23 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
   prevProject,
   nextProject,
 }) => {
+  const currentProjectIndex = category.projects.findIndex(
+    (p) => p.slug === project.slug
+  );
+
+  const projectSlides: CoverflowSlide[] = category.projects.map((p) => ({
+    src: p.coverImage,
+    alt: p.title,
+    title: p.title,
+    subtitle: p.location || p.tag || category.title,
+    href: `/work/${category.slug}/${p.slug}`,
+    meta: [
+      ...(p.year ? [{ label: "Year", value: p.year }] : []),
+      ...(p.location ? [{ label: "Location", value: p.location }] : []),
+      ...(p.client ? [{ label: "Client", value: p.client }] : []),
+    ],
+  }));
+
   return (
     <div className="min-h-screen flex flex-col text-off-white selection:bg-racing-red selection:text-off-white">
       <Header />
@@ -175,12 +192,17 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
           />
         </section>
 
-        {/* Previous / Next Project Navigation Bar */}
-        <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 border-t border-titanium/15">
-          <div className="flex items-center justify-between pb-6">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-              MORE {category.title} PROJECTS
-            </span>
+        {/* Coverflow Carousel Navigation */}
+        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 border-t border-titanium/15">
+          <div className="flex items-center justify-between pb-2">
+            <div className="flex flex-col gap-1">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
+                MORE {category.title} PROJECTS
+              </span>
+              <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-off-white">
+                Explore The Archive
+              </h3>
+            </div>
             <Link
               href={`/work/${category.slug}`}
               className="text-xs font-mono uppercase tracking-widest text-racing-red hover:underline underline-offset-4"
@@ -189,60 +211,15 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-            {/* Previous Project Card */}
-            {prevProject ? (
-              <Link
-                href={`/work/${category.slug}/${prevProject.slug}`}
-                className="group flex items-center justify-between p-5 sm:p-6 rounded-xl bg-carbon/70 border border-titanium/15 hover:border-racing-red/60 transition-all"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-full bg-black/40 border border-titanium/20 text-titanium group-hover:text-racing-red group-hover:border-racing-red transition-colors shrink-0">
-                    <ChevronLeft className="w-5 h-5" />
-                  </div>
-                  <div className="flex flex-col overflow-hidden">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                      Previous Project
-                    </span>
-                    <span className="text-base sm:text-lg font-bold uppercase tracking-tight text-off-white group-hover:text-racing-red transition-colors truncate">
-                      {prevProject.title}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ) : (
-              <div className="p-5 sm:p-6 rounded-xl border border-titanium/10 bg-black/20 flex items-center">
-                <span className="text-xs font-mono text-titanium/40 uppercase tracking-wider">
-                  First Project in Category
-                </span>
-              </div>
-            )}
-
-            {/* Next Project Card */}
-            {nextProject ? (
-              <Link
-                href={`/work/${category.slug}/${nextProject.slug}`}
-                className="group flex items-center justify-between p-5 sm:p-6 rounded-xl bg-carbon/70 border border-titanium/15 hover:border-racing-red/60 transition-all text-right"
-              >
-                <div className="flex flex-col overflow-hidden w-full pr-4">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                    Next Project
-                  </span>
-                  <span className="text-base sm:text-lg font-bold uppercase tracking-tight text-off-white group-hover:text-racing-red transition-colors truncate">
-                    {nextProject.title}
-                  </span>
-                </div>
-                <div className="p-3 rounded-full bg-black/40 border border-titanium/20 text-titanium group-hover:text-racing-red group-hover:border-racing-red transition-colors shrink-0">
-                  <ChevronRight className="w-5 h-5" />
-                </div>
-              </Link>
-            ) : (
-              <div className="p-5 sm:p-6 rounded-xl border border-titanium/10 bg-black/20 flex items-center justify-end">
-                <span className="text-xs font-mono text-titanium/40 uppercase tracking-wider">
-                  End of Category Archive
-                </span>
-              </div>
-            )}
+          <div className="w-full py-4">
+            <CoverflowCarousel
+              slides={projectSlides}
+              initialIndex={currentProjectIndex >= 0 ? currentProjectIndex : 0}
+              cardWidth="clamp(220px, 24vw, 340px)"
+              showCaption
+              showNavigation
+              showPagination
+            />
           </div>
         </section>
       </main>
