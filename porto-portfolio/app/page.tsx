@@ -7,6 +7,7 @@ import { HeroSection } from "@/components/sections/01-Hero";
 import { AboutSection } from "@/components/sections/02-About";
 import { WorkSection } from "@/components/sections/03-Work";
 import { ContactSection } from "@/components/sections/04-Contact";
+import { TestimonialsSection } from "@/components/sections/05-Testimonials";
 
 export default function Home() {
   return (
@@ -23,6 +24,8 @@ export default function Home() {
 
         {/* 03 // Selected Work / Motorsport */}
         <WorkSection />
+
+        <TestimonialsSection />
 
         <ContactSection />
       </main>
