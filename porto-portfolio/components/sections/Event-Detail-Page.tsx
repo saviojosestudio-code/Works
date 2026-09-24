@@ -21,15 +21,6 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
         {/* Event Header Banner (Cinematic Hero) */}
         <section className="w-full relative flex flex-col mb-12 sm:mb-20">
           
-          {/* Back Navigation Button */}
-          <div className="absolute top-6 left-4 sm:left-6 lg:left-8 z-10">
-            <Link
-              href="/#work"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-black/50 backdrop-blur-md rounded-full border border-titanium/20 text-xs font-mono uppercase tracking-widest text-titanium hover:text-off-white hover:border-off-white/40 transition-all group"
-            >
-              <span className="group-hover:-translate-x-1 transition-transform">←</span> Back
-            </Link>
-          </div>
 
           {/* Massive Cinematic Hero Image */}
           <div className="relative w-full h-[60vh] md:h-[75vh] lg:h-[85vh] overflow-hidden bg-transparent">
@@ -149,15 +140,7 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
             })}
           </div>
 
-          {/* Bottom Back Button */}
-          <div className="flex justify-center pt-16 border-t border-titanium/15 mt-16">
-            <Link
-              href="/#work"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-carbon border border-titanium/30 text-off-white text-[11px] uppercase tracking-widest font-semibold rounded-full hover:border-racing-red hover:text-racing-red transition-all hover:scale-[1.02]"
-            >
-              ← Back to Events Archive
-            </Link>
-          </div>
+
         </section>
 
       </main>

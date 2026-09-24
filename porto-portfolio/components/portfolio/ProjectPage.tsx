@@ -46,31 +46,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
       <main className="flex-grow pt-20 sm:pt-24 pb-24">
         {/* Project Header Banner & Hero */}
         <section className="w-full relative flex flex-col mb-12 sm:mb-20">
-          {/* Breadcrumb Navigation */}
-          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-6 flex items-center justify-between">
-            <Link
-              href={`/work/${category.slug}`}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-carbon/60 backdrop-blur-md rounded-full border border-titanium/20 text-xs font-mono uppercase tracking-widest text-titanium hover:text-off-white hover:border-off-white/40 transition-all group"
-            >
-              <span className="group-hover:-translate-x-1 transition-transform">←</span>
-              Back to {category.title}
-            </Link>
 
-            <nav className="hidden sm:flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-titanium truncate max-w-md">
-              <Link href="/" className="hover:text-off-white transition-colors shrink-0">
-                Home
-              </Link>
-              <span>/</span>
-              <Link
-                href={`/work/${category.slug}`}
-                className="hover:text-off-white transition-colors shrink-0"
-              >
-                {category.title}
-              </Link>
-              <span>/</span>
-              <span className="text-racing-red truncate">{project.title}</span>
-            </nav>
-          </div>
 
           {/* Cinematic Hero Image */}
           <div className="relative w-full h-[55vh] sm:h-[68vh] md:h-[78vh] overflow-hidden bg-carbon">
