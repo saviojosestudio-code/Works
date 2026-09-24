@@ -4,6 +4,8 @@ import "./globals.css";
 import "@/components/threeui/threeui.css";
 import { RibbonFieldBackground } from "@/components/threeui/RibbonFieldBackground";
 
+import localFont from "next/font/local";
+
 /*
  * Montserrat is loaded as a web-safe fallback only.
  * Primary typeface is Helvetica Neue (system font) defined in globals.css.
@@ -14,6 +16,12 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
   weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
+const moonWalk = localFont({
+  src: "./fonts/MoonWalk.ttf",
+  variable: "--font-moon-walk",
+  display: "swap",
 });
 
 
@@ -49,7 +57,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} scroll-smooth dark`}
+      className={`${montserrat.variable} ${moonWalk.variable} scroll-smooth dark`}
     >
       <body className="min-h-screen text-off-white font-sans antialiased">
         <div className="fixed inset-0 z-0 pointer-events-none">

@@ -120,10 +120,10 @@ export const Header: React.FC = () => {
         <Link
           href="/"
           onClick={() => setMobileMenuOpen(false)}
-          className="text-base sm:text-lg font-bold tracking-tight uppercase select-none transition-opacity hover:opacity-90 z-50"
+          className="text-base sm:text-lg tracking-tight uppercase select-none transition-opacity hover:opacity-90 z-50 text-white"
+          style={{ fontFamily: "var(--font-moon-walk)" }}
         >
-          <span className="text-off-white">RAPH</span>
-          <span className="text-racing-red">REV</span>
+          RAPHREV
         </Link>
 
         {/* Desktop Navigation — plain text links */}
