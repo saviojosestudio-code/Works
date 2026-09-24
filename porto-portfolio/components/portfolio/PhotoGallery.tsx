@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { PhotoItem, normalizePhotoItem } from "@/lib/data/portfolio-categories";
 
@@ -17,52 +17,12 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
     normalizePhotoItem(item, idx, projectTitle)
   );
 
-  const [filter, setFilter] = useState<"all" | "landscape" | "portrait">("all");
-
-  const filteredPhotos = normalizedPhotos.filter((p) => {
-    if (filter === "all") return true;
-    return p.aspect === filter;
-  });
-
-  const hasLandscape = normalizedPhotos.some((p) => p.aspect === "landscape");
-  const hasPortrait = normalizedPhotos.some((p) => p.aspect === "portrait");
-  const showFilters = hasLandscape && hasPortrait;
-
   return (
     <div className="flex flex-col w-full">
-      {/* Gallery Header & Filter Pills */}
-      <div className="flex items-center justify-between pb-6 border-b border-titanium/15 mb-8">
-        <div className="flex items-center gap-3">
-          <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-off-white m-0">
-            Visual Gallery
-          </h2>
-          <span className="text-racing-red font-mono text-sm font-semibold">
-            [{normalizedPhotos.length} Frames]
-          </span>
-        </div>
-
-        {showFilters && (
-          <div className="flex items-center gap-2">
-            {(["all", "landscape", "portrait"] as const).map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-3 sm:px-4 py-1 rounded-full border text-[10px] uppercase tracking-widest font-mono transition-all ${
-                  filter === f
-                    ? "bg-racing-red text-off-white border-racing-red"
-                    : "border-titanium/20 text-titanium hover:border-off-white/40 hover:text-off-white bg-carbon/50"
-                }`}
-              >
-                {f === "all" ? "All" : f}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
 
       {/* Editorial Responsive Mosaic Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 lg:gap-10">
-        {filteredPhotos.map((photo, index) => {
+        {normalizedPhotos.map((photo, index) => {
           let spanClass = "md:col-span-6";
           if (photo.aspect === "landscape" && index % 4 === 0) {
             spanClass = "md:col-span-12";

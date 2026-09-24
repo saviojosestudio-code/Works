@@ -12,13 +12,6 @@ interface EventDetailPageProps {
 }
 
 export function EventDetailPage({ event }: EventDetailPageProps) {
-  const [filter, setFilter] = useState<"all" | "landscape" | "portrait">("all");
-
-  const filteredPhotos = event.photos.filter((p) => {
-    if (filter === "all") return true;
-    return p.aspect === filter;
-  });
-
   return (
     <div className="min-h-screen flex flex-col text-off-white selection:bg-racing-red selection:text-off-white">
       <Header />
@@ -102,34 +95,11 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
           </div>
         </section>
 
-        {/* Gallery Filter & Grid */}
+        {/* Gallery Grid */}
         <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between pb-6">
-            <h2 className="text-xl font-bold uppercase tracking-tight text-off-white">
-              Event Gallery <span className="text-racing-red">[{event.photos.length} Frames]</span>
-            </h2>
-
-            {/* Filter Pills */}
-            <div className="flex items-center gap-2">
-              {(["all", "landscape", "portrait"] as const).map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className={`px-3.5 py-1 rounded-full border text-[10px] uppercase tracking-widest font-mono transition-all ${
-                    filter === f
-                      ? "bg-racing-red text-off-white border-racing-red"
-                      : "border-titanium/20 text-titanium hover:border-off-white/40 hover:text-off-white bg-carbon/50"
-                  }`}
-                >
-                  {f === "all" ? "All" : f}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Mixed Editorial Gallery Grid (Landscape + Portrait) */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pt-8">
-            {filteredPhotos.map((photo, index) => {
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+            {event.photos.map((photo, index) => {
               // Determine layout spans for masonry feel based on index and aspect ratio
               let spanClass = "md:col-span-6"; // Default half width
               if (photo.aspect === "landscape" && index % 5 === 0) {
