@@ -6,6 +6,7 @@
   --color-off-white: #F3F3EF;
   --color-racing-red: #E3262E;
   --color-titanium: #A7ADB3;
+  --color-primary: #F3F3EF;
 
   /*
    * Typography — Helvetica-first system
@@ -29,6 +30,7 @@
   --off-white: #F3F3EF;
   --racing-red: #E3262E;
   --titanium: #A7ADB3;
+  --primary: #F3F3EF;
 }
 
 /* Background base & micro-grid texture */

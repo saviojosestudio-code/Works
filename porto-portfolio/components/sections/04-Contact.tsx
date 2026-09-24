@@ -47,11 +47,8 @@ export const ContactSection: React.FC<ContactSectionProps> = () => {
         >
           {/* Loader while image is downloading */}
           {!isImageLoaded && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-carbon z-10">
-              <Bars className="h-7 w-7 text-racing-red" bars={3} />
-              <span className="font-mono text-[10px] tracking-widest uppercase text-titanium/70">
-                Loading Visual
-              </span>
+            <div className="absolute inset-0 flex items-center justify-center bg-carbon z-10 transition-opacity duration-500">
+              <Bars className="h-8 w-8 text-primary" bars={3} />
             </div>
           )}
 
