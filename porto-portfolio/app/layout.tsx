@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import "@/components/threeui/threeui.css";
 import { RibbonFieldBackground } from "@/components/threeui/RibbonFieldBackground";
 
 /*
- * Moon Walk is now the primary global font.
- * Replaces Montserrat and Helvetica Neue.
+ * Montserrat is loaded as a web-safe fallback only.
+ * Primary typeface is Helvetica Neue (system font) defined in globals.css.
+ * On systems without Helvetica Neue, Montserrat kicks in automatically.
  */
-const moonWalk = localFont({
-  src: "./fonts/moon-walk.ttf",
-  variable: "--font-moon-walk",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
   display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
+
 
 export const metadata: Metadata = {
   title: "RAPHREV // AJAY — Editorial Motorsport Photographer & Visual Artist",
@@ -46,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${moonWalk.variable} scroll-smooth dark`}
+      className={`${montserrat.variable} scroll-smooth dark`}
     >
       <body className="min-h-screen text-off-white font-sans antialiased">
         <div className="fixed inset-0 z-0 pointer-events-none">
