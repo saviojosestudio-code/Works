@@ -63,7 +63,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
             <div className="absolute inset-0 bg-black/35 pointer-events-none" />
 
             {/* Overlaid Title & Meta */}
-            <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 lg:px-8 pb-10 sm:pb-14 max-w-6xl mx-auto flex flex-col justify-end">
+            <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 lg:px-8 xl:px-10 pb-10 sm:pb-14 max-w-[1680px] mx-auto flex flex-col justify-end">
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <span className="px-3 py-1 bg-racing-red text-off-white text-[10px] font-mono font-bold uppercase tracking-widest rounded-sm">
                   {project.tag || `${category.title} PROJECT`}
@@ -85,9 +85,9 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
           </div>
 
           {/* Story & Specifications Section */}
-          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12">
+          <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-10 sm:pt-12">
             {project.description && (
-              <p className="text-base sm:text-xl md:text-2xl text-off-white/90 max-w-4xl leading-relaxed font-light mb-8">
+              <p className="text-base sm:text-xl md:text-2xl text-off-white/90 max-w-5xl leading-relaxed font-light mb-8">
                 {project.description}
               </p>
             )}
@@ -161,7 +161,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
         </section>
 
         {/* Visual Gallery with Lightbox */}
-        <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 mb-20">
           <PhotoGallery
             images={project.images}
             projectTitle={project.title}
@@ -169,7 +169,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
         </section>
 
         {/* Coverflow Carousel Navigation */}
-        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 border-t border-titanium/15">
+        <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-16 border-t border-titanium/15">
           <div className="flex items-center justify-between pb-2">
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">

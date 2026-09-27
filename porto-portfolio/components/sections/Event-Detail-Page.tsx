@@ -36,7 +36,7 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
             
             {/* Hero Text Overlaid */}
-            <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 lg:px-8 pb-12 pt-32 max-w-6xl mx-auto flex flex-col justify-end">
+            <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 lg:px-8 xl:px-10 pb-12 pt-32 max-w-[1680px] mx-auto flex flex-col justify-end">
               <div className="flex items-center gap-3 mb-4">
                 <span className="px-3 py-1 bg-racing-red text-off-white text-[10px] font-bold uppercase tracking-widest rounded-sm">
                   {event.tag}
@@ -53,8 +53,8 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
           </div>
 
           {/* Details & Specs Below Hero */}
-          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
-            <p className="text-lg sm:text-xl md:text-2xl text-off-white/90 max-w-4xl leading-relaxed font-light">
+          <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-12">
+            <p className="text-lg sm:text-xl md:text-2xl text-off-white/90 max-w-5xl leading-relaxed font-light">
               {event.details}
             </p>
 
@@ -87,60 +87,14 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
         </section>
 
         {/* Gallery Grid */}
-        <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Mixed Editorial Gallery Grid (Landscape + Portrait) */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
-            {event.photos.map((photo, index) => {
-              // Determine layout spans for masonry feel based on index and aspect ratio
-              let spanClass = "md:col-span-6"; // Default half width
-              if (photo.aspect === "landscape" && index % 5 === 0) {
-                spanClass = "md:col-span-12"; // Large full-width feature
-              } else if (photo.aspect === "portrait") {
-                spanClass = "md:col-span-4"; // Tighter portrait column
-              } else if (photo.aspect === "landscape") {
-                spanClass = "md:col-span-8"; // Wider supporting landscape
-              }
-
-              return (
-                <article
-                  key={photo.id}
-                  className={`group flex flex-col gap-4 ${spanClass}`}
-                >
-                  {/* Frame Container */}
-                  <div
-                    className={`relative w-full overflow-hidden rounded-none sm:rounded-xl bg-transparent transition-all duration-500 ${
-                      photo.aspect === "landscape" ? (spanClass === "md:col-span-12" ? "aspect-[21/9]" : "aspect-[16/10]") : "aspect-[3/4]"
-                    }`}
-                  >
-                    <Image
-                      src={photo.image}
-                      alt={photo.alt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 80vw"
-                      className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.03]"
-                    />
-                  </div>
-
-                  {/* Title & Metadata (Clean, detached) */}
-                  <div className="flex items-start justify-between px-0 sm:px-2">
-                    <div className="flex flex-col">
-                      <span className="text-[10px] text-titanium mb-1 font-mono uppercase tracking-widest">
-                        {photo.aspect} // {photo.category}
-                      </span>
-                      <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-off-white group-hover:text-racing-red transition-colors m-0">
-                        {photo.title}
-                      </h3>
-                      <span className="text-xs text-titanium mt-1 font-mono uppercase tracking-widest">
-                        {photo.subtitle} • {photo.location}
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
+        <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
+          <div className="grid grid-cols-1 gap-4">
+            {["/images/motorsports/lan-1.jpg","/images/motorsports/lan-2.jpg","/images/motorsports/lan-3.jpg","/images/motorsports/lan-5.jpg","/images/motorsports/lan-6.jpg","/images/motorsports/pot-1.jpg","/images/motorsports/pot-2.jpg","/images/motorsports/pot-3.jpg"].map((src, idx) => (
+              <div key={idx} className="relative w-full aspect-[16/9] overflow-hidden rounded-none sm:rounded-xl bg-transparent">
+                <Image src={src} alt={`Motorsport ${idx + 1}`} fill className="object-cover" />
+              </div>
+            ))}
           </div>
-
-
         </section>
 
       </main>

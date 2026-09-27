@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
@@ -17,9 +17,10 @@ export const Header: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(true);
   const lastScrollY = useRef<number>(0);
 
-  // Hide on scroll down, show on scroll up
+  // Hide on scroll down, show on scroll up (disabled when mobile menu is open)
   useEffect(() => {
     const handleScroll = () => {
+      if (mobileMenuOpen) return;
       const currentY = window.scrollY;
       if (currentY > lastScrollY.current && currentY > 60) {
         setVisible(false);
@@ -31,7 +32,30 @@ export const Header: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [mobileMenuOpen]);
+
+  // Lock body scroll and handle Escape key when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      const originalOverflow = document.body.style.overflow;
+      const originalOverscroll = document.body.style.overscrollBehavior;
+      document.body.style.overflow = "hidden";
+      document.body.style.overscrollBehavior = "none";
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setMobileMenuOpen(false);
+        }
+      };
+
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        document.body.style.overscrollBehavior = originalOverscroll;
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [mobileMenuOpen]);
 
   // Track active section on home page
   useEffect(() => {
@@ -111,11 +135,11 @@ export const Header: React.FC = () => {
     <header
       className="fixed top-0 w-full z-50 pt-safe transition-colors bg-black/40 backdrop-blur-md border-b border-white/5"
       style={{
-        transform: visible ? "translateY(0)" : "translateY(-100%)",
+        transform: mobileMenuOpen ? "none" : (visible ? "translateY(0)" : "translateY(-100%)"),
         transition: "transform 0.3s ease",
       }}
     >
-      <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between relative z-50">
         {/* Brand Wordmark */}
         <Link
           href="/"
@@ -149,43 +173,81 @@ export const Header: React.FC = () => {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle Navigation Menu"
           aria-expanded={mobileMenuOpen}
-          className="sm:hidden p-2 rounded-lg border border-titanium/20 text-off-white hover:text-racing-red hover:border-racing-red/50 transition-colors z-50 focus:outline-none"
+          className="sm:hidden p-2 rounded-lg border border-titanium/20 text-off-white hover:text-racing-red hover:border-racing-red/50 transition-colors z-50 focus:outline-none cursor-pointer"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
+      </div>
 
-        {/* Mobile Full-Screen Overlay Menu */}
+      {/* Mobile Dynamic Viewport Overlay Menu */}
+      <AnimatePresence>
         {mobileMenuOpen && (
-          <div className="fixed inset-0 top-16 bg-black/80 backdrop-blur-2xl z-40 flex flex-col justify-between p-6 sm:hidden animate-in fade-in slide-in-from-top-4 duration-200 border-t border-titanium/15">
-            <nav className="flex flex-col gap-6 pt-6">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-40 bg-black/95 backdrop-blur-2xl flex flex-col justify-between px-6 sm:hidden overflow-y-auto overscroll-contain border-t border-titanium/15"
+            style={{
+              height: "100dvh",
+              paddingTop: "calc(4.5rem + env(safe-area-inset-top, 0px))",
+              paddingBottom: "max(2rem, env(safe-area-inset-bottom, 0px))",
+            }}
+          >
+            <nav className="flex flex-col gap-5 pt-2">
               {navItems.map((item, idx) => (
-                <Link
+                <motion.div
                   key={item.name}
-                  href={item.href}
-                  onClick={item.onClick}
-                  className={`text-2xl font-bold uppercase tracking-wider flex items-center justify-between pb-4 border-b border-titanium/15 transition-colors ${
-                    item.isActive
-                      ? "text-racing-red"
-                      : "text-off-white hover:text-racing-red"
-                  }`}
+                  initial={{ opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.04 * idx, duration: 0.2 }}
                 >
-                  <span>{item.name}</span>
-                  <span className="text-xs font-mono text-titanium font-normal">
-                    0{idx + 1}
-                  </span>
-                </Link>
+                  <Link
+                    href={item.href}
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      item.onClick?.(e);
+                    }}
+                    className={`text-2xl font-bold uppercase tracking-wider flex items-center justify-between pb-4 border-b border-titanium/15 transition-colors ${
+                      item.isActive
+                        ? "text-racing-red"
+                        : "text-off-white hover:text-racing-red active:text-racing-red"
+                    }`}
+                  >
+                    <span className="flex items-center gap-3">
+                      {item.isActive && (
+                        <span className="inline-block w-2 h-2 rounded-full bg-racing-red" />
+                      )}
+                      {item.name}
+                    </span>
+                    <span className="text-xs font-mono text-titanium font-normal">
+                      0{idx + 1}
+                    </span>
+                  </Link>
+                </motion.div>
               ))}
             </nav>
 
-            <div className="flex flex-col gap-2 pt-6 border-t border-titanium/15 text-xs text-titanium font-mono">
-              <span className="text-off-white font-semibold uppercase">
-                Ajay Johnson // RAPHREV
-              </span>
-              <span>DUBAI, UNITED ARAB EMIRATES</span>
-            </div>
-          </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.25 }}
+              className="flex flex-col gap-2 pt-6 border-t border-titanium/15 text-xs text-titanium font-mono mt-auto"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-off-white font-semibold uppercase tracking-wider">
+                  Ajay Johnson // RAPHREV
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-[10px] text-racing-red uppercase font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-racing-red animate-pulse" />
+                  Available
+                </span>
+              </div>
+              <span className="text-titanium/70 text-[11px]">DUBAI, UNITED ARAB EMIRATES</span>
+            </motion.div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </header>
   );
 };

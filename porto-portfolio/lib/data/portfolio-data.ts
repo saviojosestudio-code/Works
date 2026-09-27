@@ -60,8 +60,7 @@ export const RAPHREV_DATA = {
         title: "Yas Marina GP — Abu Dhabi",
         subtitle: "Formula 1 // Twilight Grand Prix",
         year: "2026",
-        image:
-          "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1600&q=90",
+        image: "/images/motorsports/lan-1.jpg",
         alt: "Yas Marina Circuit Abu Dhabi Formula 1 twilight race",
         location: "Abu Dhabi, UAE",
         details: "Chasing apex lines under 5,000 floodlights along the Yas Marina harbor circuit.",
@@ -72,8 +71,7 @@ export const RAPHREV_DATA = {
         title: "Jebel Jais Hillclimb",
         subtitle: "Historic Rally // Desert Mountain",
         year: "2026",
-        image:
-          "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1600&q=90",
+        image: "/images/motorsports/lan-2.jpg",
         alt: "Historic Porsche 911 rallying on Jebel Jais mountain pass",
         location: "Ras Al Khaimah, UAE",
         details: "Air-cooled flat-six acoustics echoing through jagged hairpin switchbacks at 1,900m elevation.",
@@ -84,8 +82,7 @@ export const RAPHREV_DATA = {
         title: "Dubai 24H Endurance",
         subtitle: "GT Series // Nocturne Sprint",
         year: "2026",
-        image:
-          "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=90",
+        image: "/images/motorsports/lan-3.jpg",
         alt: "Dubai Autodrome 24H endurance GT night racing",
         location: "Dubai Autodrome",
         details: "Glowing brake rotors and searing headlamps slicing through 3:00 AM desert darkness.",
@@ -96,8 +93,7 @@ export const RAPHREV_DATA = {
         title: "Equinox Pit Lane Sprint",
         subtitle: "Hypercar Prototype // Night Shift",
         year: "2026",
-        image:
-          "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1600&q=90",
+        image: "/images/motorsports/lan-5.jpg",
         alt: "Equinox Hypercar prototype pit lane preparation at night",
         location: "Pit Garages, Nocturne",
         details: "Carbon monocoque inspection and aero tuning under focused cold tungsten lights.",
@@ -110,7 +106,7 @@ export const RAPHREV_DATA = {
     heading: "GET IN TOUCH",
     subheading: "Reach out and let's create something amazing together. Let's achieve greatness.",
     formTitle: "FILL THIS FORM OUT",
-    image: "/DSC08714.jpg",
+    image: "/images/motorsports/lan-6.jpg",
     imageAlt: "GT Series endurance race cars lined up on track",
   },
 };
