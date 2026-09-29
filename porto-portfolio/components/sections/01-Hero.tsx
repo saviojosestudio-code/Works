@@ -14,11 +14,10 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
 
   return (
     <section id="home" className="flex flex-col w-full">
-      {/* Full-bleed Hero Image */}
-      <div
-        className="group relative w-full aspect-[16/10] sm:aspect-[18/9] md:aspect-[21/9] overflow-hidden bg-carbon"
-      >
-        {/* Loader while image is downloading/rendering */}
+      {/* Full-bleed Hero Image — no text overlay */}
+      <div className="group relative w-full aspect-[4/5] sm:aspect-[16/10] md:aspect-[18/9] lg:aspect-[21/9] overflow-hidden bg-carbon">
+
+        {/* Loader skeleton */}
         {!isLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-carbon z-10 transition-opacity duration-500">
             <Bars className="h-8 w-8 text-primary" bars={3} />
@@ -38,10 +37,12 @@ export const HeroSection: React.FC<HeroSectionProps> = () => {
           style={{ objectPosition: "center 80%" }}
           onLoad={() => setIsLoaded(true)}
         />
+
         {/* Base vignette — always present */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none" />
         {/* Hover-reactive gradient — deepens on hover */}
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out bg-gradient-to-tr from-black/60 via-transparent to-black/30 pointer-events-none" />
+
       </div>
     </section>
   );

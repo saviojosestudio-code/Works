@@ -68,11 +68,7 @@ export const ContactSection: React.FC<ContactSectionProps> = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-carbon/20 to-transparent pointer-events-none" />
           {/* Hover-reactive gradient — deepens and shifts direction */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out bg-gradient-to-tr from-black/70 via-transparent to-black/30 pointer-events-none" />
-          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs text-off-white/90">
-            <span className="font-mono text-[11px] uppercase tracking-wider">
-              Yas Marina // Apex Light
-            </span>
-          </div>
+
         </div>
 
         {/* Contact Form */}

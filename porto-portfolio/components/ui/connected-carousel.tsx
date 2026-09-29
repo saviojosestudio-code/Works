@@ -334,7 +334,7 @@ export function CalendlyCarousel({
                         {/* Decorative quote mark */}
                         <span
                           aria-hidden="true"
-                          className="text-4xl sm:text-5xl text-racing-red font-bold leading-none absolute -top-3 -left-1 hidden md:block select-none pointer-events-none"
+                          className="text-4xl sm:text-5xl text-off-white/60 font-bold leading-none absolute -top-3 -left-1 hidden md:block select-none pointer-events-none"
                           style={{ fontFamily: "Georgia, serif" }}
                         >
                           "
@@ -348,12 +348,12 @@ export function CalendlyCarousel({
                       <div className="flex min-w-0 w-full overflow-hidden items-center md:items-start justify-center md:justify-start">
                         <div className="flex flex-col items-center md:items-start min-w-0">
                           {/* Name tag */}
-                          <span className="inline-flex items-center rounded-sm py-1 px-3 text-[10px] font-mono uppercase tracking-widest bg-racing-red text-off-white shrink-0 select-none font-semibold">
+                          <span className="inline-flex items-center rounded-sm py-1 px-3 text-[10px] font-mono uppercase tracking-widest bg-off-white text-carbon shrink-0 select-none font-semibold">
                             {item.author}
                           </span>
 
                           {/* Connector pip */}
-                          <div className="shrink-0 flex items-center justify-center md:justify-start px-3 h-[6px] -my-[1px] text-racing-red relative z-10">
+                          <div className="shrink-0 flex items-center justify-center md:justify-start px-3 h-[6px] -my-[1px] text-off-white relative z-10">
                             <svg className="block shrink-0 fill-current overflow-visible" preserveAspectRatio="none" viewBox="0 -2 14 12" width="14" height="10">
                               <path d="M0 -2 V0 C0 0 5.09091 0.49688 5.09091 4 C5.09091 7.50312 0 8 0 8 V10 H14 V8 C14 8 8.90909 7.50312 8.90909 4 C8.90909 0.49688 14 0 14 0 V-2 Z" />
                             </svg>
@@ -416,7 +416,7 @@ export function CalendlyCarousel({
             >
               {isSelected && (
                 <div
-                  className="h-full bg-racing-red"
+                  className="h-full bg-off-white"
                   style={{ transformOrigin: "0% 50%", transform: `scaleX(${progress / 100})` }}
                 />
               )}

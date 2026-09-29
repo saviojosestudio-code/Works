@@ -88,12 +88,33 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
 
         {/* Gallery Grid */}
         <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10">
-          <div className="grid grid-cols-1 gap-4">
-            {["/images/motorsports/lan-1.jpg","/images/motorsports/lan-2.jpg","/images/motorsports/lan-3.jpg","/images/motorsports/lan-5.jpg","/images/motorsports/lan-6.jpg","/images/motorsports/pot-1.jpg","/images/motorsports/pot-2.jpg","/images/motorsports/pot-3.jpg"].map((src, idx) => (
-              <div key={idx} className="relative w-full aspect-[16/9] overflow-hidden rounded-none sm:rounded-xl bg-transparent">
-                <Image src={src} alt={`Motorsport ${idx + 1}`} fill className="object-cover" />
-              </div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 lg:gap-8">
+            {event.photos.map((photo, idx) => {
+              // Full-width on mobile; landscape shots expand to 12 cols, portraits share 6 cols
+              const isWide = photo.aspect === "landscape";
+              const spanClass = isWide && idx % 3 === 0 ? "md:col-span-12" : "md:col-span-6";
+              const aspectClass = isWide
+                ? spanClass === "md:col-span-12" ? "aspect-[21/9]" : "aspect-[16/10]"
+                : "aspect-[3/4]";
+              const imgSizes = spanClass === "md:col-span-12"
+                ? "(max-width: 768px) 100vw, 95vw"
+                : "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px";
+
+              return (
+                <div
+                  key={photo.id || idx}
+                  className={`group relative w-full ${spanClass} ${aspectClass} overflow-hidden rounded-none sm:rounded-xl bg-transparent border border-titanium/10 transition-all duration-500 hover:border-racing-red/40`}
+                >
+                  <Image
+                    src={photo.image}
+                    alt={photo.alt || photo.title}
+                    fill
+                    sizes={imgSizes}
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+                  />
+                </div>
+              );
+            })}
           </div>
         </section>
 

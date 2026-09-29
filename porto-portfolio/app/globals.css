@@ -90,3 +90,23 @@ p, li, a, span, label, input, textarea, button, blockquote {
 .pb-safe {
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
+
+/* ── Mobile tooltip: fade in, hold, then fade out ────────────────────── */
+@keyframes fade-in-out {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  15%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+  80%  { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+}
+.animate-fade-in-out {
+  animation: fade-in-out 2.5s ease-in-out forwards;
+}
+
+/* Respect prefers-reduced-motion: disable all non-essential animations */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
