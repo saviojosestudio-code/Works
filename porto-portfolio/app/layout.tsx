@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import "@/components/threeui/threeui.css";
 import { RibbonFieldBackground } from "@/components/threeui/RibbonFieldBackground";
+import { SanityLive } from "@/lib/sanity/live";
 
 import localFont from "next/font/local";
 
@@ -73,6 +74,7 @@ export default function RootLayout({
         </div>
         <div className="relative z-10 min-h-screen flex flex-col">
           {children}
+          <SanityLive />
         </div>
       </body>
     </html>

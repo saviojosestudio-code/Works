@@ -1,14 +1,18 @@
 "use client";
 
 import React from "react";
-import { PORTFOLIO_CATEGORIES } from "@/lib/data/portfolio-categories";
 import { CategoryGrid } from "@/components/portfolio/CategoryGrid";
+import type { SanityCategory } from "@/lib/sanity/types";
 
-export const WorkSection: React.FC = () => {
+interface WorkSectionProps {
+  categories: SanityCategory[];
+}
+
+export const WorkSection: React.FC<WorkSectionProps> = ({ categories }) => {
   return (
     <section id="work" className="flex flex-col w-full py-16 sm:py-24">
-      {/* Category Grid Powered Dynamically by Portfolio Data */}
-      <CategoryGrid categories={PORTFOLIO_CATEGORIES} />
+      {/* Category Grid Powered Dynamically by Sanity */}
+      <CategoryGrid categories={categories} />
     </section>
   );
 };

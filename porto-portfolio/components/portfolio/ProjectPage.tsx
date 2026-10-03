@@ -5,15 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Category, Project } from "@/lib/data/portfolio-categories";
 import { PhotoGallery } from "./PhotoGallery";
 import { CoverflowCarousel, CoverflowSlide } from "@/components/ui/coverflow-carousel";
+import { urlFor } from "@/lib/sanity/image";
+import type { SanityCategory, SanityProject } from "@/lib/sanity/types";
 
 interface ProjectPageProps {
-  category: Category;
-  project: Project;
-  prevProject?: Project;
-  nextProject?: Project;
+  category: SanityCategory;
+  project: SanityProject;
+  prevProject?: SanityProject;
+  nextProject?: SanityProject;
 }
 
 export const ProjectPage: React.FC<ProjectPageProps> = ({
@@ -22,22 +23,32 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
   prevProject,
   nextProject,
 }) => {
-  const currentProjectIndex = category.projects.findIndex(
+  const projects = category.projects || [];
+  const currentProjectIndex = projects.findIndex(
     (p) => p.slug === project.slug
   );
 
-  const projectSlides: CoverflowSlide[] = category.projects.map((p) => ({
-    src: p.coverImage,
-    alt: p.title,
-    title: p.title,
-    subtitle: p.location || p.tag || category.title,
-    href: `/work/${category.slug}/${p.slug}`,
-    meta: [
-      ...(p.year ? [{ label: "Year", value: p.year }] : []),
-      ...(p.location ? [{ label: "Location", value: p.location }] : []),
-      ...(p.client ? [{ label: "Client", value: p.client }] : []),
-    ],
-  }));
+  const coverImageUrl = project.coverImage?.asset
+    ? urlFor(project.coverImage).width(1600).url()
+    : "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=1600";
+
+  const projectSlides: CoverflowSlide[] = projects.map((p) => {
+    const slideCover = p.coverImage?.asset
+      ? urlFor(p.coverImage).width(800).url()
+      : "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800";
+    return {
+      src: slideCover,
+      alt: p.title,
+      title: p.title,
+      subtitle: p.location || p.tag || category.title,
+      href: `/work/${category.slug}/${p.slug}`,
+      meta: [
+        ...(p.year ? [{ label: "Year", value: p.year }] : []),
+        ...(p.location ? [{ label: "Location", value: p.location }] : []),
+        ...(p.client ? [{ label: "Client", value: p.client }] : []),
+      ],
+    };
+  });
 
   return (
     <div className="min-h-screen flex flex-col text-off-white selection:bg-racing-red selection:text-off-white">
@@ -46,23 +57,18 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
       <main className="flex-grow pt-20 sm:pt-24 pb-24">
         {/* Project Header Banner & Hero */}
         <section className="w-full relative flex flex-col mb-12 sm:mb-20">
-
-
-          {/* Cinematic Hero Image */}
           <div className="relative w-full h-[55vh] sm:h-[68vh] md:h-[78vh] overflow-hidden bg-carbon">
             <Image
-              src={project.coverImage}
+              src={coverImageUrl}
               alt={project.title}
               fill
               priority
               sizes="100vw"
               className="object-cover"
             />
-            {/* Ambient gradients */}
             <div className="absolute inset-0 bg-gradient-to-t from-carbon via-carbon/40 to-transparent pointer-events-none" />
             <div className="absolute inset-0 bg-black/35 pointer-events-none" />
 
-            {/* Overlaid Title & Meta */}
             <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 lg:px-8 xl:px-10 pb-10 sm:pb-14 max-w-[1680px] mx-auto flex flex-col justify-end">
               <div className="flex flex-wrap items-center gap-3 mb-4">
                 <span className="px-3 py-1 bg-racing-red text-off-white text-[10px] font-mono font-bold uppercase tracking-widest rounded-sm">
@@ -84,7 +90,6 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
             </div>
           </div>
 
-          {/* Story & Specifications Section */}
           <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-10 sm:pt-12">
             {project.description && (
               <p className="text-base sm:text-xl md:text-2xl text-off-white/90 max-w-5xl leading-relaxed font-light mb-8">
@@ -92,7 +97,6 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
               </p>
             )}
 
-            {/* Specs & Metadata Grid */}
             {project.specs && Object.keys(project.specs).length > 0 && (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-6 border-t border-titanium/15">
                 {project.specs.laps && (
@@ -160,7 +164,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
           </div>
         </section>
 
-        {/* Visual Gallery with Lightbox */}
+        {/* Visual Gallery */}
         <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 mb-20">
           <PhotoGallery
             images={project.images}
@@ -169,35 +173,37 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
         </section>
 
         {/* Coverflow Carousel Navigation */}
-        <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-16 border-t border-titanium/15">
-          <div className="flex items-center justify-between pb-2">
-            <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                MORE {category.title} PROJECTS
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-off-white">
-                Explore The Archive
-              </h3>
+        {projects.length > 0 && (
+          <section className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-16 border-t border-titanium/15">
+            <div className="flex items-center justify-between pb-2">
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
+                  MORE {category.title} PROJECTS
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-off-white">
+                  Explore The Archive
+                </h3>
+              </div>
+              <Link
+                href={`/work/${category.slug}`}
+                className="text-xs font-mono uppercase tracking-widest text-racing-red hover:underline underline-offset-4"
+              >
+                View All ({projects.length})
+              </Link>
             </div>
-            <Link
-              href={`/work/${category.slug}`}
-              className="text-xs font-mono uppercase tracking-widest text-racing-red hover:underline underline-offset-4"
-            >
-              View All ({category.projects.length})
-            </Link>
-          </div>
 
-          <div className="w-full py-4">
-            <CoverflowCarousel
-              slides={projectSlides}
-              initialIndex={currentProjectIndex >= 0 ? currentProjectIndex : 0}
-              cardWidth="clamp(220px, 24vw, 340px)"
-              showCaption
-              showNavigation
-              showPagination
-            />
-          </div>
-        </section>
+            <div className="w-full py-4">
+              <CoverflowCarousel
+                slides={projectSlides}
+                initialIndex={currentProjectIndex >= 0 ? currentProjectIndex : 0}
+                cardWidth="clamp(220px, 24vw, 340px)"
+                showCaption
+                showNavigation
+                showPagination
+              />
+            </div>
+          </section>
+        )}
       </main>
 
       <Footer />

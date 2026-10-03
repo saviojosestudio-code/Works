@@ -6,11 +6,23 @@ import { RAPHREV_DATA } from "@/lib/data/portfolio-data";
 import { CheckCircle2 } from "lucide-react";
 import { Bars } from "@/components/ui/bars";
 import { cn } from "@/lib/utils";
+import { urlFor } from "@/lib/sanity/image";
+import type { SanitySiteSettings } from "@/lib/sanity/types";
 
-interface ContactSectionProps {}
+interface ContactSectionProps {
+  settings?: SanitySiteSettings | null;
+}
 
-export const ContactSection: React.FC<ContactSectionProps> = () => {
-  const { contact } = RAPHREV_DATA;
+export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
+  const contact = {
+    tag: settings?.aboutTag || RAPHREV_DATA.contact.tag,
+    heading: settings?.contactHeading || RAPHREV_DATA.contact.heading,
+    subheading: settings?.contactSubheading || RAPHREV_DATA.contact.subheading,
+    formTitle: RAPHREV_DATA.contact.formTitle,
+    image: settings?.contactImage?.asset ? urlFor(settings.contactImage).url() : RAPHREV_DATA.contact.image,
+    imageAlt: settings?.contactImage?.alt || RAPHREV_DATA.contact.imageAlt,
+  };
+
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -39,13 +51,9 @@ export const ContactSection: React.FC<ContactSectionProps> = () => {
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold uppercase text-off-white mt-2">{contact.heading}</h2>
         <p className="text-base sm:text-lg text-titanium mt-3 max-w-2xl mx-auto">{contact.subheading}</p>
       </div>
-      {/* 2-Column Responsive Layout */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-        {/* Formula 1 Editorial Visual */}
-        <div
-          className="group relative w-full aspect-[16/10] md:aspect-auto md:h-full min-h-[400px] md:min-h-[600px] overflow-hidden bg-carbon rounded-none sm:rounded-xl order-2 md:order-1"
-        >
-          {/* Loader while image is downloading */}
+        <div className="group relative w-full aspect-[16/10] md:aspect-auto md:h-full min-h-[400px] md:min-h-[600px] overflow-hidden bg-carbon rounded-none sm:rounded-xl order-2 md:order-1">
           {!isImageLoaded && (
             <div className="absolute inset-0 flex items-center justify-center bg-carbon z-10 transition-opacity duration-500">
               <Bars className="h-8 w-8 text-primary" bars={3} />
@@ -64,14 +72,10 @@ export const ContactSection: React.FC<ContactSectionProps> = () => {
             style={{ objectPosition: "60% 65%" }}
             onLoad={() => setIsImageLoaded(true)}
           />
-          {/* Base gradient — always present */}
           <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-carbon/20 to-transparent pointer-events-none" />
-          {/* Hover-reactive gradient — deepens and shifts direction */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out bg-gradient-to-tr from-black/70 via-transparent to-black/30 pointer-events-none" />
-
         </div>
 
-        {/* Contact Form */}
         <div className="flex flex-col justify-center w-full order-1 md:order-2 bg-transparent border border-titanium/20 rounded-2xl p-6 sm:p-8 backdrop-blur-sm">
           <span className="text-[11px] font-medium uppercase tracking-widest text-off-white font-semibold pb-4 block border-b border-titanium/15 mb-5">
             {contact.formTitle}

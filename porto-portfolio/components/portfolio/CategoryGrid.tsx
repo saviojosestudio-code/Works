@@ -1,11 +1,11 @@
 "use client";
 
 import React from "react";
-import { Category } from "@/lib/data/portfolio-categories";
 import { CategoryCard } from "./CategoryCard";
+import type { SanityCategory } from "@/lib/sanity/types";
 
 interface CategoryGridProps {
-  categories: Category[];
+  categories: SanityCategory[];
   className?: string;
 }
 

@@ -2,8 +2,10 @@
 
 import React from "react";
 import { CalendlyCarousel, CarouselItem } from "@/components/ui/connected-carousel";
+import { urlFor } from "@/lib/sanity/image";
+import type { SanityTestimonial } from "@/lib/sanity/types";
 
-const TESTIMONIALS_DATA: CarouselItem[] = [
+const FALLBACK_TESTIMONIALS: CarouselItem[] = [
   {
     id: "veloce-racing",
     stat: "300+ km/h Paddock & Track Coverage",
@@ -45,15 +47,36 @@ const TESTIMONIALS_DATA: CarouselItem[] = [
   },
 ];
 
-export function TestimonialsSection() {
+interface TestimonialsSectionProps {
+  testimonials?: SanityTestimonial[];
+}
+
+export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
+  const items: CarouselItem[] = testimonials && testimonials.length > 0
+    ? testimonials.map((t) => {
+        const imageUrl = t.avatar?.asset
+          ? urlFor(t.avatar).width(800).url()
+          : "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800";
+        return {
+          id: t._id,
+          stat: t.stat || "",
+          quote: t.quote,
+          author: t.author,
+          role: t.role,
+          defaultImage: imageUrl,
+          selectedImage: imageUrl,
+          alt: `${t.author}, ${t.role}`,
+        };
+      })
+    : FALLBACK_TESTIMONIALS;
+
   return (
     <section
       id="testimonials"
       className="w-full py-12 sm:py-20 overflow-hidden"
     >
-      {/* Carousel */}
       <CalendlyCarousel
-        items={TESTIMONIALS_DATA}
+        items={items}
         autoPlayInterval={7000}
         pauseOnHover={true}
         className="px-4 sm:px-6"
@@ -61,4 +84,3 @@ export function TestimonialsSection() {
     </section>
   );
 }
-

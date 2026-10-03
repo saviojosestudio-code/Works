@@ -3,10 +3,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Category } from "@/lib/data/portfolio-categories";
+import { urlFor } from "@/lib/sanity/image";
+import type { SanityCategory } from "@/lib/sanity/types";
 
 interface CategoryCardProps {
-  category: Category;
+  category: SanityCategory;
   index?: number;
   featured?: boolean;
 }
@@ -16,7 +17,12 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
   index,
   featured = false,
 }) => {
-  const projectCount = category.projects.length;
+  const projectCount = category.projects?.length ?? 0;
+
+  // Build cover image URL from Sanity asset, or fall back to a placeholder
+  const coverSrc = category.coverImage?.asset
+    ? urlFor(category.coverImage).width(1200).height(800).quality(85).url()
+    : null;
 
   return (
     <Link
@@ -29,13 +35,17 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
     >
       {/* Background Image with Cinematic Hover Zoom */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src={category.coverImage}
-          alt={category.title}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-        />
+        {coverSrc ? (
+          <Image
+            src={coverSrc}
+            alt={category.coverImage?.alt || category.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          />
+        ) : (
+          <div className="w-full h-full bg-carbon/80" />
+        )}
       </div>
 
       {/* Base Gradient Overlays */}

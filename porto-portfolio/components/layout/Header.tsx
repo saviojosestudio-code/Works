@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -140,14 +141,21 @@ export const Header: React.FC = () => {
       }}
     >
       <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between relative z-50">
-        {/* Brand Wordmark */}
+        {/* Brand Logo */}
         <Link
           href="/"
           onClick={() => setMobileMenuOpen(false)}
-          className="text-base sm:text-lg tracking-tight uppercase select-none transition-opacity hover:opacity-90 z-50 text-white"
-          style={{ fontFamily: "var(--font-moon-walk)" }}
+          className="flex items-center select-none transition-opacity hover:opacity-80 z-50"
+          aria-label="RAPHREV Home"
         >
-          RAPHREV
+          <Image
+            src="/raphrev-logo-white.png"
+            alt="RAPHREV Logo"
+            width={120}
+            height={40}
+            className="h-8 w-auto object-contain brightness-0 invert"
+            priority
+          />
         </Link>
 
         {/* Desktop Navigation — plain text links */}

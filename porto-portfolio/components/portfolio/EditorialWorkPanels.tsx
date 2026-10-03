@@ -3,10 +3,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Category } from "@/lib/data/portfolio-categories";
+import { urlFor } from "@/lib/sanity/image";
+import type { SanityCategory } from "@/lib/sanity/types";
 
 interface EditorialWorkPanelsProps {
-  categories: Category[];
+  categories: SanityCategory[];
 }
 
 export const EditorialWorkPanels: React.FC<EditorialWorkPanelsProps> = ({
@@ -19,17 +20,20 @@ export const EditorialWorkPanels: React.FC<EditorialWorkPanelsProps> = ({
     >
       {categories.map((category, index) => {
         const indexStr = String(index + 1).padStart(2, "0");
+        const coverImageUrl = category.coverImage?.asset
+          ? urlFor(category.coverImage).width(1200).url()
+          : "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=1200";
 
         return (
           <Link
-            key={category.slug}
+            key={category.slug || category._id}
             href={`/work/${category.slug}`}
             className="group relative flex-1 min-h-[75vh] sm:min-h-[80vh] lg:min-h-0 lg:h-full flex flex-col justify-end overflow-hidden cursor-pointer border-b lg:border-b-0 lg:border-r border-titanium/15 last:border-r-0 last:border-b-0 transition-all select-none"
           >
             {/* Full-Bleed Background Image */}
             <div className="absolute inset-0 z-0">
               <Image
-                src={category.coverImage}
+                src={coverImageUrl}
                 alt={`${category.title} photography portfolio by Ajay Johnson`}
                 fill
                 priority={index < 3}
@@ -39,10 +43,7 @@ export const EditorialWorkPanels: React.FC<EditorialWorkPanelsProps> = ({
             </div>
 
             {/* Dark Cinematic Gradient Overlays */}
-            {/* Bottom gradient — high contrast readability for editorial typography */}
             <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/55 via-45% to-transparent pointer-events-none transition-opacity duration-700" />
-            
-            {/* Top vignette — preserves header & navigation clarity */}
             <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none" />
 
             {/* Subtle interactive frame highlight */}
