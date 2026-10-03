@@ -19,9 +19,9 @@ import type {
 
 export default async function Home() {
   const [settings, categories, testimonials] = await Promise.all([
-    safeSanityFetch<SanitySiteSettings | null>(SITE_SETTINGS_QUERY, {}, null),
-    safeSanityFetch<SanityCategory[]>(CATEGORIES_QUERY, {}, []),
-    safeSanityFetch<SanityTestimonial[]>(TESTIMONIALS_QUERY, {}, []),
+    safeSanityFetch<SanitySiteSettings | null>(SITE_SETTINGS_QUERY, {}, null, ['siteSettings']),
+    safeSanityFetch<SanityCategory[]>(CATEGORIES_QUERY, {}, [], ['category', 'project']),
+    safeSanityFetch<SanityTestimonial[]>(TESTIMONIALS_QUERY, {}, [], ['testimonial']),
   ]);
 
   return (

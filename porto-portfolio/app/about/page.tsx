@@ -15,7 +15,8 @@ export default async function About() {
   const siteSettings = await safeSanityFetch<SanitySiteSettings | undefined>(
     SITE_SETTINGS_QUERY,
     {},
-    undefined
+    undefined,
+    ['siteSettings']
   );
 
   return (

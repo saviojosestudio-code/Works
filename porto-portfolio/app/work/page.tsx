@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function WorkPage() {
-  const categories = await safeSanityFetch<SanityCategory[]>(CATEGORIES_QUERY, {}, []);
+  const categories = await safeSanityFetch<SanityCategory[]>(CATEGORIES_QUERY, {}, [], ['category', 'project']);
 
   return (
     <div className="min-h-screen w-full flex flex-col text-off-white selection:bg-racing-red selection:text-off-white bg-carbon overflow-x-hidden">

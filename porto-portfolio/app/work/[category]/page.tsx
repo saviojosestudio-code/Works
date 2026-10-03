@@ -27,7 +27,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const category = await safeSanityFetch<SanityCategory | null>(
     CATEGORY_BY_SLUG_QUERY,
     { slug },
-    null
+    null,
+    ['category', `category:${slug}`, 'project']
   );
 
   if (!category) {
@@ -68,7 +69,8 @@ export default async function Page({ params }: PageProps) {
   const category = await safeSanityFetch<SanityCategory | null>(
     CATEGORY_BY_SLUG_QUERY,
     { slug },
-    null
+    null,
+    ['category', `category:${slug}`, 'project']
   );
 
   if (!category) {
