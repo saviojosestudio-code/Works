@@ -1,23 +1,34 @@
 "use client";
 
 import React from "react";
+import type { SanitySiteSettings } from "@/lib/sanity/types";
 
-export const AboutSection: React.FC = () => {
+const FALLBACK_TAGLINE =
+  "Capturing the Apex of Energy and Emotion Across the UK and Worldwide.";
+
+const FALLBACK_DESCRIPTION =
+  "In the moments that define your event – the roar of the crowd, the first chord from the stage, the shared vision at a corporate launch – lie stories waiting to be told. I am a professional UK event photographer specialising in creating powerful, cinematic images that don't just document your event; they capture its energy. From the high-stakes world of competitive sport to the vibrant pulse of a music festival and the polished professionalism of a corporate conference, I deliver high-impact photography that becomes a lasting asset for your brand.";
+
+interface AboutSectionProps {
+  settings?: SanitySiteSettings | null;
+}
+
+export const AboutSection: React.FC<AboutSectionProps> = ({ settings }) => {
+  const tagline = settings?.heroTagline || FALLBACK_TAGLINE;
+  const description = settings?.heroDescription || FALLBACK_DESCRIPTION;
+
   return (
     <section id="about" className="w-full py-6 sm:py-8 md:py-10 px-4 sm:px-6 lg:px-8">
 
-      {/* Glass card — content-driven height on mobile, cinematic ratio on desktop */}
+      {/* Glass card */}
       <div className="
         relative w-full max-w-screen-2xl mx-auto
         rounded-2xl
         bg-transparent border border-titanium/20 backdrop-blur-sm
-        /* Mobile: auto height so text never clips */
         py-12 px-6
-        /* Tablet+: switch to flex-centered layout with generous padding */
         sm:py-16 sm:px-16
         md:py-20 md:px-24
         lg:py-28 lg:px-32
-        /* Large screens: enforce the cinematic min-height without aspect-ratio locking */
         lg:min-h-[42vh]
         xl:min-h-[48vh]
         2xl:min-h-[44vh]
@@ -32,20 +43,14 @@ export const AboutSection: React.FC = () => {
             font-semibold uppercase tracking-tight
             text-off-white leading-tight
           ">
-            Capturing the Apex of Energy and Emotion Across the UK and Worldwide.
+            {tagline}
           </h2>
 
           <p className="
             text-sm sm:text-sm md:text-base
             text-titanium leading-relaxed font-light
           ">
-            In the moments that define your event – the roar of the crowd, the first chord from
-            the stage, the shared vision at a corporate launch – lie stories waiting to be told.
-            I am a professional UK event photographer specialising in creating powerful, cinematic
-            images that don&apos;t just document your event; they capture its energy. From the
-            high-stakes world of competitive sport to the vibrant pulse of a music festival and
-            the polished professionalism of a corporate conference, I deliver high-impact
-            photography that becomes a lasting asset for your brand.
+            {description}
           </p>
 
         </div>

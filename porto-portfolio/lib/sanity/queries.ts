@@ -165,6 +165,8 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
     },
     heroTitle,
     heroBadge,
+    heroTagline,
+    heroDescription,
     heroImage {
       asset-> {
         _id,

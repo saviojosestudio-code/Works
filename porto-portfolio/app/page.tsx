@@ -7,6 +7,7 @@ import {
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/sections/01-Hero";
+import { AboutSection } from "@/components/sections/02-About";
 import { WorkSection } from "@/components/sections/03-Work";
 import { ContactSection } from "@/components/sections/04-Contact";
 import { TestimonialsSection } from "@/components/sections/05-Testimonials";
@@ -33,11 +34,16 @@ export default async function Home() {
         {/* 01 // Hero */}
         <HeroSection settings={settings} />
 
-        {/* 03 // Selected Work / Motorsport */}
+        {/* 02 // Description */}
+        <AboutSection settings={settings} />
+
+        {/* 03 // Selected Work */}
         <WorkSection categories={categories} />
 
+        {/* 04 // Testimonials */}
         <TestimonialsSection testimonials={testimonials} />
 
+        {/* 05 // Contact */}
         <ContactSection settings={settings} />
       </main>
 

@@ -95,6 +95,23 @@ export const siteSettings = defineType({
       description: 'e.g. Abu Dhabi // Twilight GP',
     }),
 
+    // Homepage Description (below hero)
+    defineField({
+      name: 'heroTagline',
+      title: 'Homepage Tagline (below hero)',
+      type: 'string',
+      description: 'Large headline shown in the description card below the hero. e.g. "Capturing the Apex of Energy and Emotion."',
+      initialValue: 'Capturing the Apex of Energy and Emotion Across the UK and Worldwide.',
+    }),
+    defineField({
+      name: 'heroDescription',
+      title: 'Homepage Description (below hero)',
+      type: 'text',
+      rows: 4,
+      description: 'Supporting paragraph shown beneath the tagline on the homepage.',
+      initialValue: "In the moments that define your event – the roar of the crowd, the first chord from the stage, the shared vision at a corporate launch – lie stories waiting to be told. I deliver high-impact photography that becomes a lasting asset for your brand.",
+    }),
+
     // About Section
     defineField({
       name: 'aboutTag',
