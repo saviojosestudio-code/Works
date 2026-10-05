@@ -106,6 +106,8 @@ export interface SanitySiteSettings {
   heroVideoFile?: SanityFile
   heroTitle?: string
   heroBadge?: string
+  heroFloatingText?: string
+  heroFloatingImage?: SanityImage
   heroTagline?: string
   heroDescription?: string
   heroImage?: SanityImage

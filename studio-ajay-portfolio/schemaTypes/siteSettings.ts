@@ -94,6 +94,28 @@ export const siteSettings = defineType({
       type: 'string',
       description: 'e.g. Abu Dhabi // Twilight GP',
     }),
+    defineField({
+      name: 'heroFloatingText',
+      title: 'Hero Floating Text (Bottom-Left Overlay)',
+      type: 'string',
+      description: 'Short text displayed as a floating label at the bottom-left corner of the hero image/video. Leave empty to hide.',
+    }),
+    defineField({
+      name: 'heroFloatingImage',
+      title: 'Hero Floating Image (Bottom-Left Overlay)',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alternative Text',
+        }),
+      ],
+      description: 'Small image displayed at the bottom-left corner of the hero. Leave empty to hide.',
+    }),
 
     // Homepage Description (below hero)
     defineField({

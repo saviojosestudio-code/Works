@@ -36,17 +36,19 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ settings }) => {
       ">
 
         {/* Content — always centred */}
-        <div className="flex flex-col gap-4 sm:gap-6 md:gap-7 max-w-3xl text-center w-full">
+        <div className="flex flex-col gap-4 sm:gap-6 md:gap-7 text-center w-full items-center">
 
-          <h2 className="
-            text-2xl sm:text-3xl md:text-4xl lg:text-5xl
-            font-semibold uppercase tracking-tight
-            text-off-white leading-tight
-          ">
+          {/* Tagline — full width, always single line */}
+          <h2
+            className="font-semibold uppercase tracking-tight text-off-white leading-none whitespace-nowrap w-full text-center"
+            style={{ fontSize: "clamp(0.75rem, 3.5vw, 2.8rem)" }}
+          >
             {tagline}
           </h2>
 
+          {/* Description — constrained for readability */}
           <p className="
+            max-w-3xl
             text-sm sm:text-sm md:text-base
             text-titanium leading-relaxed font-light
           ">

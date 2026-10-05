@@ -102,6 +102,12 @@ p, li, a, span, label, input, textarea, button, blockquote {
   animation: fade-in-out 2.5s ease-in-out forwards;
 }
 
+/* ── Hero floating overlay entrance ─────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Respect prefers-reduced-motion: disable all non-essential animations */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

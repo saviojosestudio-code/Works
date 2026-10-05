@@ -76,6 +76,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings }) => {
         {/* Cinematic gradient overlays */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none" />
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out bg-gradient-to-tr from-black/60 via-transparent to-black/30 pointer-events-none" />
+
+        {/* Bottom-left floating overlay — image and/or text from Sanity */}
+        {(settings?.heroFloatingImage?.asset?.url || settings?.heroFloatingText) && (
+          <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 z-20 flex items-end gap-3 animate-[fadeIn_0.8s_ease_0.4s_both]">
+            {settings?.heroFloatingImage?.asset?.url && (
+              <Image
+                src={settings.heroFloatingImage.asset.url}
+                alt={settings.heroFloatingImage.alt || "Hero floating image"}
+                width={64}
+                height={64}
+                className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg border border-white/20 shadow-lg"
+              />
+            )}
+            {settings?.heroFloatingText && (
+              <span className="text-[10px] sm:text-xs font-mono font-semibold uppercase tracking-widest text-white/80 bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-md border border-white/10 shadow-md leading-none">
+                {settings.heroFloatingText}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );

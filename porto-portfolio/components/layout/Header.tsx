@@ -140,26 +140,26 @@ export const Header: React.FC = () => {
         transition: "transform 0.3s ease",
       }}
     >
-      <div className="max-w-6xl mx-auto h-16 px-4 sm:px-6 lg:px-8 flex items-center justify-between relative z-50">
+      <div className="w-full h-16 pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8 flex items-center justify-between relative z-50 flex-nowrap">
         {/* Brand Logo */}
         <Link
           href="/"
           onClick={() => setMobileMenuOpen(false)}
-          className="flex items-center select-none transition-opacity hover:opacity-80 z-50"
+          className="flex items-center select-none transition-opacity hover:opacity-80 z-50 flex-shrink-0"
           aria-label="RAPHREV Home"
         >
           <Image
             src="/raphrev-logo-white.png"
             alt="RAPHREV Logo"
-            width={120}
-            height={40}
-            className="h-8 w-auto object-contain brightness-0 invert"
+            width={90}
+            height={30}
+            className="h-6 w-auto object-contain brightness-0 invert"
             priority
           />
         </Link>
 
         {/* Desktop Navigation — plain text links */}
-        <nav className="hidden sm:flex items-center gap-8">
+        <nav className="hidden sm:flex items-center gap-8 flex-shrink-0 whitespace-nowrap">
           {navItems.map((item) => (
             <Link
               key={item.name}
