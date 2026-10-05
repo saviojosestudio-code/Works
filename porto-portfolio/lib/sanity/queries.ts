@@ -217,11 +217,11 @@ export const TESTIMONIALS_QUERY = defineQuery(`
     stat,
     quote,
     avatar {
+      ...,
       asset-> {
         _id,
         url
-      },
-      alt
+      }
     }
   }
 `)

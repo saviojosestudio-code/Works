@@ -83,7 +83,7 @@ export function AboutPage({ siteSettings }: AboutPageProps) {
         </section>
       </main>
 
-      <Footer />
+      <Footer settings={siteSettings} />
     </div>
   );
 }

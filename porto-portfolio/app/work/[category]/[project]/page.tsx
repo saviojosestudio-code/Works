@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { safeSanityFetch } from "@/lib/sanity/client";
-import { PROJECT_BY_SLUGS_QUERY } from "@/lib/sanity/queries";
+import { PROJECT_BY_SLUGS_QUERY, SITE_SETTINGS_QUERY } from "@/lib/sanity/queries";
 import { ProjectPage } from "@/components/portfolio/ProjectPage";
 import { urlFor } from "@/lib/sanity/image";
-import type { SanityProject } from "@/lib/sanity/types";
+import type { SanityProject, SanitySiteSettings } from "@/lib/sanity/types";
 
 interface PageProps {
   params: Promise<{ category: string; project: string }>;
@@ -52,12 +52,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({ params }: PageProps) {
   const { category: categorySlug, project: projectSlug } = await params;
 
-  const project = await safeSanityFetch<SanityProject | null>(
-    PROJECT_BY_SLUGS_QUERY,
-    { categorySlug, projectSlug },
-    null,
-    ['project', `project:${projectSlug}`, 'category']
-  );
+  const [project, settings] = await Promise.all([
+    safeSanityFetch<SanityProject | null>(
+      PROJECT_BY_SLUGS_QUERY,
+      { categorySlug, projectSlug },
+      null,
+      ['project', `project:${projectSlug}`, 'category']
+    ),
+    safeSanityFetch<SanitySiteSettings | null>(
+      SITE_SETTINGS_QUERY,
+      {},
+      null,
+      ['siteSettings']
+    ),
+  ]);
 
   if (!project || !project.category) {
     notFound();
@@ -79,6 +87,7 @@ export default async function Page({ params }: PageProps) {
       project={project}
       prevProject={prevProject}
       nextProject={nextProject}
+      settings={settings}
     />
   );
 }

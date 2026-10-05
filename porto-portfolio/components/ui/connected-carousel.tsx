@@ -118,6 +118,52 @@ export function CalendlyCarousel({
     setPage((curr) => curr + 1);
   }, []);
 
+  // Swipe gesture tracking (touch and mouse drag)
+  const isDraggingRef = useRef<boolean>(false);
+  const startXRef = useRef<number | null>(null);
+  const startYRef = useRef<number | null>(null);
+  const hasSwipedRef = useRef<boolean>(false);
+
+  const handleSwipeStart = (clientX: number, clientY: number) => {
+    isDraggingRef.current = true;
+    startXRef.current = clientX;
+    startYRef.current = clientY;
+    hasSwipedRef.current = false;
+  };
+
+  const handleSwipeMove = (clientX: number, clientY: number) => {
+    if (!isDraggingRef.current || startXRef.current === null || startYRef.current === null) return;
+    const diffX = clientX - startXRef.current;
+    const diffY = clientY - startYRef.current;
+
+    // Detect intentional horizontal swipe motion
+    if (Math.abs(diffX) > 10 && Math.abs(diffX) > Math.abs(diffY)) {
+      hasSwipedRef.current = true;
+    }
+  };
+
+  const handleSwipeEnd = (clientX: number, clientY: number) => {
+    if (!isDraggingRef.current || startXRef.current === null || startYRef.current === null) {
+      isDraggingRef.current = false;
+      return;
+    }
+    const diffX = clientX - startXRef.current;
+    const diffY = clientY - startYRef.current;
+
+    isDraggingRef.current = false;
+    startXRef.current = null;
+    startYRef.current = null;
+
+    // Instant swipe threshold (35px) with horizontal dominance
+    if (Math.abs(diffX) >= 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX < 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+  };
+
   const handleSelectTab = (event: MouseEvent<HTMLButtonElement>) => {
     const indexStr = event.currentTarget.dataset.index;
     if (indexStr !== undefined) {
@@ -133,6 +179,7 @@ export function CalendlyCarousel({
   };
 
   const handleSelectCard = (event: MouseEvent<HTMLDivElement>) => {
+    if (hasSwipedRef.current) return;
     const offsetStr = event.currentTarget.dataset.offset;
     if (offsetStr !== undefined) {
       const offset = Number.parseInt(offsetStr, 10);
@@ -146,7 +193,12 @@ export function CalendlyCarousel({
   };
 
   const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    isDraggingRef.current = false;
+    startXRef.current = null;
+    startYRef.current = null;
+  };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "ArrowLeft") handlePrev();
@@ -155,8 +207,8 @@ export function CalendlyCarousel({
 
   const activeDimensions = {
     desktop: { width: 762, height: 513 },
-    tablet: { width: 560, height: 440 },
-    mobile: { width: Math.min(340, viewportWidth - 56), height: 490 },
+    tablet: { width: Math.min(680, viewportWidth - 48), height: 460 },
+    mobile: { width: Math.min(360, viewportWidth - 32), height: 520 },
   }[tier];
 
   return (
@@ -180,7 +232,36 @@ export function CalendlyCarousel({
         id="carousel-view-panel"
         role="tabpanel"
         aria-live="polite"
-        className="relative w-full flex items-center justify-center"
+        onTouchStart={(e) => {
+          if (e.touches.length === 1) {
+            handleSwipeStart(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }}
+        onTouchMove={(e) => {
+          if (e.touches.length === 1) {
+            handleSwipeMove(e.touches[0].clientX, e.touches[0].clientY);
+          }
+        }}
+        onTouchEnd={(e) => {
+          if (e.changedTouches.length > 0) {
+            handleSwipeEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+          }
+        }}
+        onTouchCancel={() => {
+          isDraggingRef.current = false;
+          startXRef.current = null;
+          startYRef.current = null;
+        }}
+        onMouseDown={(e) => {
+          handleSwipeStart(e.clientX, e.clientY);
+        }}
+        onMouseMove={(e) => {
+          handleSwipeMove(e.clientX, e.clientY);
+        }}
+        onMouseUp={(e) => {
+          handleSwipeEnd(e.clientX, e.clientY);
+        }}
+        className="relative w-full flex items-center justify-center touch-pan-y cursor-grab active:cursor-grabbing"
         style={{ height: activeDimensions.height }}
       >
         {VISIBLE_OFFSETS.map((offset) => {
@@ -195,7 +276,7 @@ export function CalendlyCarousel({
               const activeH = activeDimensions.height;
               const gap = 16;
               const peekW = 60;
-              const peekH = 410;
+              const peekH = 430;
               if (offset === 0)
                 return { x: -activeW / 2, y: -activeH / 2, width: activeW, height: activeH, opacity: 1, zIndex: 0, pointerEvents: "auto" as const };
               if (offset === -1)
@@ -206,11 +287,11 @@ export function CalendlyCarousel({
             }
 
             if (tier === "tablet") {
-              const activeW = 560;
-              const activeH = 440;
+              const activeW = activeDimensions.width;
+              const activeH = activeDimensions.height;
               const gap = 18;
-              const sideW = 100;
-              const sideH = 340;
+              const sideW = 90;
+              const sideH = 360;
               if (offset === 0)
                 return { x: -activeW / 2, y: -activeH / 2, width: activeW, height: activeH, opacity: 1, zIndex: 0, pointerEvents: "auto" as const };
               if (offset === -1)
@@ -243,7 +324,7 @@ export function CalendlyCarousel({
               transition={TRANSITION_SPRING}
               style={{ position: "absolute", left: "50%", top: "50%", willChange: "transform", backgroundColor: CARD_BG }}
               className={cn(
-                "rounded-none border border-titanium/15 overflow-visible",
+                "rounded-2xl border border-titanium/20 overflow-visible",
                 "shadow-[0_16px_48px_rgba(0,0,0,0.8),0_4px_16px_rgba(0,0,0,0.6)]",
                 !isActive && "cursor-pointer"
               )}
@@ -282,27 +363,28 @@ export function CalendlyCarousel({
                 </div>
               )}
 
-              <div className="size-full overflow-hidden relative" style={{ borderRadius: "inherit" }}>
+              <div className="size-full overflow-hidden relative rounded-2xl" style={{ borderRadius: "inherit" }}>
 
                 {/* Inactive: grayscale thumbnail with titanium tint */}
                 <motion.div
                   initial={false}
                   animate={{ opacity: isActive ? 0 : 1 }}
                   transition={{ duration: 0.22, ease: "easeOut" }}
-                  className={cn("absolute inset-0 p-1.5", isActive && "pointer-events-none")}
+                  className={cn("absolute inset-0 p-1 sm:p-1.5", isActive && "pointer-events-none")}
                 >
-                  <div className="size-full overflow-hidden relative" style={{ borderRadius: "inherit" }}>
+                  <div className="size-full overflow-hidden relative rounded-xl" style={{ borderRadius: "inherit" }}>
                     <Image
                       alt={item.alt || item.author}
                       src={item.defaultImage}
                       fill
+                      sizes="(max-width: 768px) 60px, (max-width: 1120px) 100px, 105px"
                       unoptimized
                       draggable={false}
-                      style={{ objectFit: "cover" }}
-                      className="size-full object-cover grayscale contrast-[1.1]"
+                      style={{ objectFit: "cover", objectPosition: "top center" }}
+                      className="size-full object-cover object-top grayscale contrast-[1.1]"
                     />
                     {/* Dark carbon overlay on inactive cards */}
-                    <div className="absolute inset-0 bg-carbon/60" />
+                    <div className="absolute inset-0 bg-carbon/60 hover:bg-carbon/40 transition-colors" />
                   </div>
                 </motion.div>
 
@@ -313,17 +395,17 @@ export function CalendlyCarousel({
                     animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : offset < 0 ? -822 : 822 }}
                     transition={TRANSITION_SPRING}
                     className={cn(
-                      "size-full flex flex-col md:flex-row p-5 sm:p-6 md:p-7 lg:p-8 gap-4 sm:gap-5 md:gap-7",
+                      "size-full flex flex-col md:flex-row p-4 sm:p-6 md:p-7 lg:p-8 gap-4 sm:gap-5 md:gap-7",
                       !isActive && "pointer-events-none"
                     )}
                   >
                     {/* ── Left: text content ── */}
-                    <div className="flex-1 min-w-0 flex flex-col items-center md:items-start text-center md:text-left justify-between gap-3 sm:gap-4">
+                    <div className="flex-1 min-w-0 flex flex-col items-center md:items-start text-center md:text-left justify-between gap-3 sm:gap-4 overflow-hidden">
 
                       {/* Stat headline */}
                       <h3
                         title={item.stat}
-                        className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-off-white leading-tight w-full"
+                        className="text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold uppercase tracking-tight text-off-white leading-tight w-full"
                         style={{ letterSpacing: "-0.03em" }}
                       >
                         {item.stat}
@@ -337,9 +419,9 @@ export function CalendlyCarousel({
                           className="text-4xl sm:text-5xl text-off-white/60 font-bold leading-none absolute -top-3 -left-1 hidden md:block select-none pointer-events-none"
                           style={{ fontFamily: "Georgia, serif" }}
                         >
-                          "
+                          &ldquo;
                         </span>
-                        <p className="text-xs sm:text-sm md:text-base text-off-white/80 leading-relaxed font-light md:pl-6">
+                        <p className="text-xs sm:text-sm md:text-base text-off-white/80 leading-relaxed font-light md:pl-6 line-clamp-4 sm:line-clamp-none">
                           {item.quote}
                         </p>
                       </div>
@@ -369,19 +451,26 @@ export function CalendlyCarousel({
 
                     {/* ── Right: portrait image ── */}
                     <div
-                      className="relative shrink-0 overflow-hidden bg-carbon border border-titanium/10 w-full md:w-[clamp(180px,42%,310px)] flex-1 md:flex-initial md:h-full max-h-[200px] md:max-h-none rounded-none"
+                      className={cn(
+                        "relative shrink-0 overflow-hidden bg-carbon border border-titanium/15",
+                        "w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[3/4]",
+                        "max-h-[220px] sm:max-h-[240px] md:max-h-none",
+                        "md:w-[220px] lg:w-[280px] xl:w-[310px] md:h-full",
+                        "rounded-xl sm:rounded-2xl"
+                      )}
                     >
                       <Image
                         alt={item.alt || item.author}
                         src={item.selectedImage}
                         fill
+                        sizes="(max-width: 640px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 240px, 310px"
                         unoptimized
                         draggable={false}
-                        style={{ objectFit: "cover" }}
-                        className="size-full object-cover grayscale-[20%] contrast-[1.05]"
+                        style={{ objectFit: "cover", objectPosition: "top center" }}
+                        className="size-full object-cover object-top grayscale-[15%] contrast-[1.05] transition-all duration-700"
                       />
                       {/* Subtle bottom vignette */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-carbon/40 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-carbon/50 via-transparent to-transparent pointer-events-none" />
                     </div>
                   </motion.div>
                 </div>

@@ -2,9 +2,24 @@
 
 import React from "react";
 import { RAPHREV_DATA } from "@/lib/data/portfolio-data";
+import type { SanitySiteSettings } from "@/lib/sanity/types";
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  settings?: SanitySiteSettings | null;
+}
+
+export const Footer: React.FC<FooterProps> = ({ settings }) => {
   const { profile } = RAPHREV_DATA;
+
+  const socials = settings?.socials?.length ? settings.socials : profile.socials;
+  const location = settings?.location || profile.fullLocation;
+  const phones = settings?.phones?.length ? settings.phones : profile.phones;
+  const emails = settings?.emails?.length ? settings.emails : profile.emails;
+
+  // Format location into distinct lines if separated by commas
+  const locationParts = location
+    ? location.split(",").map((part) => part.trim()).filter(Boolean)
+    : ["DUBAI", "UNITED ARAB EMIRATES"];
 
   return (
     <footer className="flex flex-col w-full bg-transparent">
@@ -40,7 +55,7 @@ export const Footer: React.FC = () => {
                 </span>
               </div>
               <div className="flex flex-col gap-2 pt-1">
-                {profile.socials.map((social) => (
+                {socials.map((social) => (
                   <a
                     key={social.name}
                     href={social.url}
@@ -63,12 +78,14 @@ export const Footer: React.FC = () => {
                 CURRENT LOCATION
               </span>
               <div className="flex flex-col gap-0.5 pt-1">
-                <span className="text-xs uppercase font-semibold text-off-white leading-tight block">
-                  DUBAI,
-                </span>
-                <span className="text-xs uppercase font-semibold text-off-white leading-tight block">
-                  UNITED ARAB EMIRATES
-                </span>
+                {locationParts.map((part, index) => (
+                  <span
+                    key={index}
+                    className="text-xs uppercase font-semibold text-off-white leading-tight block"
+                  >
+                    {part}{index < locationParts.length - 1 ? "," : ""}
+                  </span>
+                ))}
               </div>
             </div>
 
@@ -78,9 +95,9 @@ export const Footer: React.FC = () => {
                 PHONE
               </span>
               <div className="flex flex-col gap-1 pt-1">
-                {profile.phones.map((phone) => (
+                {phones.map((phone) => (
                   <a
-                    key={phone.label}
+                    key={`${phone.label}-${phone.number}`}
                     href={`tel:${phone.number.replace(/\s+/g, "")}`}
                     className="text-xs uppercase font-semibold text-off-white block hover:text-racing-red transition-colors"
                   >
@@ -96,7 +113,7 @@ export const Footer: React.FC = () => {
                 EMAIL ME
               </span>
               <div className="flex flex-col gap-1 pt-1">
-                {profile.emails.map((email) => (
+                {emails.map((email) => (
                   <a
                     key={email}
                     href={`mailto:${email}`}

@@ -48,7 +48,7 @@ export default async function Home() {
       </main>
 
       {/* Monolithic Footer Directory */}
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

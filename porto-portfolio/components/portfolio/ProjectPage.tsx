@@ -8,13 +8,14 @@ import { Footer } from "@/components/layout/Footer";
 import { PhotoGallery } from "./PhotoGallery";
 import { CoverflowCarousel, CoverflowSlide } from "@/components/ui/coverflow-carousel";
 import { urlFor } from "@/lib/sanity/image";
-import type { SanityCategory, SanityProject } from "@/lib/sanity/types";
+import type { SanityCategory, SanityProject, SanitySiteSettings } from "@/lib/sanity/types";
 
 interface ProjectPageProps {
   category: SanityCategory;
   project: SanityProject;
   prevProject?: SanityProject;
   nextProject?: SanityProject;
+  settings?: SanitySiteSettings | null;
 }
 
 export const ProjectPage: React.FC<ProjectPageProps> = ({
@@ -22,6 +23,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
   project,
   prevProject,
   nextProject,
+  settings,
 }) => {
   const projects = category.projects || [];
   const currentProjectIndex = projects.findIndex(
@@ -206,7 +208,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
         )}
       </main>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 };
