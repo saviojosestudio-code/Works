@@ -44,7 +44,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
   return (
     <section
       id="contact"
-      className="flex flex-col w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 md:pt-24 pb-16 sm:pb-20 md:pb-28"
+      className="flex flex-col w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 md:pt-24 pb-20 sm:pb-24 md:pb-28"
     >
       <div className="text-center mb-12">
         <span className="text-[11px] font-medium uppercase tracking-widest text-titanium">{contact.tag}</span>

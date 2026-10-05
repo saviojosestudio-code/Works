@@ -22,8 +22,8 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
     : ["DUBAI", "UNITED ARAB EMIRATES"];
 
   return (
-    <footer className="flex flex-col w-full bg-transparent">
-      <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <footer className="flex flex-col w-full bg-transparent pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] md:pb-0">
+      <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
 
         {/* Glassmorphism card */}
         <div

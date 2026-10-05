@@ -44,14 +44,14 @@ export const CategoryPage: React.FC<CategoryPageProps> = ({ category }) => {
   const currentProjects = projects.slice(startIndex, startIndex + pageSize);
 
   return (
-    <div className="min-h-screen w-full flex flex-col text-off-white selection:bg-racing-red selection:text-off-white bg-carbon overflow-x-hidden">
+    <div className="min-h-[100dvh] w-full flex flex-col text-off-white selection:bg-racing-red selection:text-off-white bg-carbon overflow-x-hidden">
       <Header />
 
       <main className="w-full flex-grow flex flex-col relative">
         {/* Desktop View */}
         <section
           aria-label={`${category.title} Projects Grid`}
-          className="hidden lg:flex w-full h-screen max-h-screen flex-row overflow-hidden relative bg-carbon"
+          className="hidden lg:flex w-full h-[100dvh] max-h-[100dvh] flex-row overflow-hidden relative bg-carbon"
         >
           {currentProjects.map((project, idx) => {
             const actualIndex = startIndex + idx;
@@ -109,7 +109,7 @@ const ProjectPanelItem: React.FC<ProjectPanelItemProps> = ({
       href={`/work/${categorySlug}/${project.slug}`}
       className={`group relative flex-1 ${
         isMobile
-          ? "w-full min-h-[75vh] sm:min-h-[80vh]"
+          ? "w-full min-h-[75dvh] sm:min-h-[80dvh]"
           : "h-full min-h-0"
       } flex flex-col justify-end overflow-hidden cursor-pointer border-b lg:border-b-0 lg:border-r border-titanium/15 last:border-r-0 last:border-b-0 transition-all select-none`}
     >

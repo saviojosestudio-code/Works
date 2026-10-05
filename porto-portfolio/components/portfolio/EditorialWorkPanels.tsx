@@ -16,7 +16,7 @@ export const EditorialWorkPanels: React.FC<EditorialWorkPanelsProps> = ({
   return (
     <section
       aria-label="Photography Portfolio Categories"
-      className="w-full min-h-screen lg:h-screen lg:max-h-screen flex flex-col lg:flex-row overflow-hidden relative bg-carbon"
+      className="w-full min-h-[100dvh] lg:h-[100dvh] lg:max-h-[100dvh] flex flex-col lg:flex-row overflow-hidden relative bg-carbon"
     >
       {categories.map((category, index) => {
         const indexStr = String(index + 1).padStart(2, "0");
@@ -28,7 +28,7 @@ export const EditorialWorkPanels: React.FC<EditorialWorkPanelsProps> = ({
           <Link
             key={category.slug || category._id}
             href={`/work/${category.slug}`}
-            className="group relative flex-1 min-h-[75vh] sm:min-h-[80vh] lg:min-h-0 lg:h-full flex flex-col justify-end overflow-hidden cursor-pointer border-b lg:border-b-0 lg:border-r border-titanium/15 last:border-r-0 last:border-b-0 transition-all select-none"
+            className="group relative flex-1 min-h-[75dvh] sm:min-h-[80dvh] lg:min-h-0 lg:h-full flex flex-col justify-end overflow-hidden cursor-pointer border-b lg:border-b-0 lg:border-r border-titanium/15 last:border-r-0 last:border-b-0 transition-all select-none"
           >
             {/* Full-Bleed Background Image */}
             <div className="absolute inset-0 z-0">
