@@ -15,7 +15,6 @@ interface ContactSectionProps {
 
 export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
   const contact = {
-    tag: settings?.aboutTag || RAPHREV_DATA.contact.tag,
     heading: settings?.contactHeading || RAPHREV_DATA.contact.heading,
     subheading: settings?.contactSubheading || RAPHREV_DATA.contact.subheading,
     formTitle: RAPHREV_DATA.contact.formTitle,
@@ -47,7 +46,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
       className="flex flex-col w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 md:pt-24 pb-20 sm:pb-24 md:pb-28"
     >
       <div className="text-center mb-12">
-        <span className="text-[11px] font-medium uppercase tracking-widest text-titanium">{contact.tag}</span>
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold uppercase text-off-white mt-2">{contact.heading}</h2>
         <p className="text-base sm:text-lg text-titanium mt-3 max-w-2xl mx-auto">{contact.subheading}</p>
       </div>

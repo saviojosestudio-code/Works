@@ -134,7 +134,7 @@ export const Header: React.FC = () => {
 
   return (
     <header
-      className="fixed top-0 w-full z-50 pt-safe transition-colors bg-black/40 backdrop-blur-md border-b border-white/5"
+      className="fixed top-0 w-full z-50 pt-safe transition-colors bg-black/80 backdrop-blur-lg border-b border-white/10 shadow-lg shadow-black/20"
       style={{
         transform: mobileMenuOpen ? "none" : (visible ? "translateY(0)" : "translateY(-100%)"),
         transition: "transform 0.3s ease",
@@ -165,10 +165,10 @@ export const Header: React.FC = () => {
               key={item.name}
               href={item.href}
               onClick={item.onClick}
-              className={`text-xs font-semibold tracking-widest uppercase transition-colors duration-200 ${
+              className={`text-sm font-semibold tracking-wider uppercase transition-colors duration-200 ${
                 item.isActive
                   ? "text-white"
-                  : "text-white/60 hover:text-white"
+                  : "text-white/75 hover:text-white"
               }`}
             >
               {item.name}
