@@ -4,6 +4,7 @@ import { safeSanityFetch } from "@/lib/sanity/client";
 import { CATEGORY_BY_SLUG_QUERY } from "@/lib/sanity/queries";
 import { CategoryPage } from "@/components/portfolio/CategoryPage";
 import { urlFor } from "@/lib/sanity/image";
+import { getSlugCandidates } from "@/lib/utils/slug";
 import type { SanityCategory } from "@/lib/sanity/types";
 
 interface PageProps {
@@ -19,16 +20,22 @@ const LEGACY_REDIRECTS: Record<string, string> = {
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { category: slug } = await params;
-  if (LEGACY_REDIRECTS[slug]) {
+  const { category: rawSlug } = await params;
+  if (LEGACY_REDIRECTS[rawSlug]) {
     return { title: "Redirecting... — RAPHREV" };
   }
 
+  const cand = getSlugCandidates(rawSlug);
+
   const category = await safeSanityFetch<SanityCategory | null>(
     CATEGORY_BY_SLUG_QUERY,
-    { slug },
+    {
+      slug: cand.slug,
+      slugs: cand.slugs,
+      slugsLower: cand.slugsLower,
+    },
     null,
-    ['category', `category:${slug}`, 'project']
+    ['category', `category:${cand.slug}`, 'project']
   );
 
   if (!category) {
@@ -60,17 +67,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const { category: slug } = await params;
+  const { category: rawSlug } = await params;
 
-  if (LEGACY_REDIRECTS[slug]) {
-    redirect(LEGACY_REDIRECTS[slug]);
+  if (LEGACY_REDIRECTS[rawSlug]) {
+    redirect(LEGACY_REDIRECTS[rawSlug]);
   }
+
+  const cand = getSlugCandidates(rawSlug);
 
   const category = await safeSanityFetch<SanityCategory | null>(
     CATEGORY_BY_SLUG_QUERY,
-    { slug },
+    {
+      slug: cand.slug,
+      slugs: cand.slugs,
+      slugsLower: cand.slugsLower,
+    },
     null,
-    ['category', `category:${slug}`, 'project']
+    ['category', `category:${cand.slug}`, 'project']
   );
 
   if (!category) {

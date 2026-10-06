@@ -15,29 +15,49 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
   images = [],
   projectTitle,
 }) => {
-  const normalizedPhotos: PhotoItem[] = images.map((item, idx) => {
-    if (typeof item === "object" && item !== null) {
-      if ("image" in item && item.image?.asset) {
-        const src = urlFor(item.image).width(1600).url();
-        return {
-          id: item._key || `sanity-photo-${idx}`,
-          src,
-          alt: item.alt || `${projectTitle} photograph ${idx + 1}`,
-          aspect: item.aspect || (idx % 3 === 0 ? "landscape" : "portrait"),
-        };
+  const normalizedPhotos: PhotoItem[] = images
+    .map((item, idx) => {
+      if (typeof item === "object" && item !== null) {
+        if ("image" in item && item.image?.asset) {
+          let src = "";
+          try {
+            src = urlFor(item.image).width(1600).url();
+          } catch {
+            src = (item.image.asset as { url?: string })?.url || "";
+          }
+          const aspect: "landscape" | "portrait" =
+            item.aspect === "portrait"
+              ? "portrait"
+              : item.aspect === "landscape"
+              ? "landscape"
+              : idx % 3 === 0
+              ? "landscape"
+              : "portrait";
+          return {
+            id: item._key || `sanity-photo-${idx}`,
+            src,
+            alt: item.alt || `${projectTitle} photograph ${idx + 1}`,
+            aspect,
+          };
+        }
+        if ("asset" in item && item.asset) {
+          let src = "";
+          try {
+            src = urlFor(item).width(1600).url();
+          } catch {
+            src = (item.asset as { url?: string })?.url || "";
+          }
+          return {
+            id: (item.asset as { _id?: string })?._id || `sanity-img-${idx}`,
+            src,
+            alt: item.alt || `${projectTitle} photograph ${idx + 1}`,
+            aspect: (idx % 3 === 0 ? "landscape" : "portrait") as "landscape" | "portrait",
+          };
+        }
       }
-      if ("asset" in item && item.asset) {
-        const src = urlFor(item).width(1600).url();
-        return {
-          id: item.asset._id || `sanity-img-${idx}`,
-          src,
-          alt: item.alt || `${projectTitle} photograph ${idx + 1}`,
-          aspect: idx % 3 === 0 ? "landscape" : "portrait",
-        };
-      }
-    }
-    return normalizePhotoItem(item as PhotoItem | string, idx, projectTitle);
-  });
+      return normalizePhotoItem(item as PhotoItem | string, idx, projectTitle);
+    })
+    .filter((photo) => Boolean(photo.src));
 
   const [showSwipeHint, setShowSwipeHint] = useState(false);
   useEffect(() => {
@@ -51,7 +71,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
 
   return (
     <div className="flex flex-col w-full relative">
-      {showSwipeHint && (
+      {showSwipeHint && normalizedPhotos.length > 0 && (
         <div
           className="pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-black/60 border border-titanium/20 backdrop-blur-sm animate-fade-in-out"
           aria-hidden="true"
@@ -63,7 +83,12 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 lg:gap-8">
+      {normalizedPhotos.length === 0 ? (
+        <div className="py-16 text-center text-titanium font-mono text-xs uppercase tracking-widest border border-dashed border-titanium/20 rounded-xl">
+          Gallery archive being updated
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 lg:gap-8">
         {normalizedPhotos.map((photo, index) => {
           let spanClass = "md:col-span-6";
           if (photo.aspect === "landscape" && index % 4 === 0) {
@@ -104,6 +129,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
           );
         })}
       </div>
-    </div>
-  );
+    )}
+  </div>
+);
 };

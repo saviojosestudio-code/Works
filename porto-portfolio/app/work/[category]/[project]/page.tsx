@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { safeSanityFetch } from "@/lib/sanity/client";
-import { PROJECT_BY_SLUGS_QUERY, SITE_SETTINGS_QUERY } from "@/lib/sanity/queries";
+import { PROJECT_BY_SLUGS_QUERY, PROJECT_BY_SLUG_FALLBACK_QUERY, SITE_SETTINGS_QUERY } from "@/lib/sanity/queries";
 import { ProjectPage } from "@/components/portfolio/ProjectPage";
 import { urlFor } from "@/lib/sanity/image";
+import { getSlugCandidates, isSlugMatch } from "@/lib/utils/slug";
 import type { SanityProject, SanitySiteSettings } from "@/lib/sanity/types";
 
 interface PageProps {
@@ -11,13 +12,36 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { category: categorySlug, project: projectSlug } = await params;
-  const project = await safeSanityFetch<SanityProject | null>(
+  const { category: rawCategorySlug, project: rawProjectSlug } = await params;
+  const projectCand = getSlugCandidates(rawProjectSlug);
+  const categoryCand = getSlugCandidates(rawCategorySlug);
+
+  let project = await safeSanityFetch<SanityProject | null>(
     PROJECT_BY_SLUGS_QUERY,
-    { categorySlug, projectSlug },
+    {
+      categorySlug: categoryCand.slug,
+      categorySlugs: categoryCand.slugs,
+      categorySlugsLower: categoryCand.slugsLower,
+      projectSlug: projectCand.slug,
+      projectSlugs: projectCand.slugs,
+      projectSlugsLower: projectCand.slugsLower,
+    },
     null,
-    ['project', `project:${projectSlug}`, 'category']
+    ['project', `project:${projectCand.slug}`, 'category']
   );
+
+  if (!project) {
+    project = await safeSanityFetch<SanityProject | null>(
+      PROJECT_BY_SLUG_FALLBACK_QUERY,
+      {
+        projectSlug: projectCand.slug,
+        projectSlugs: projectCand.slugs,
+        projectSlugsLower: projectCand.slugsLower,
+      },
+      null,
+      ['project', `project:${projectCand.slug}`, 'category']
+    );
+  }
 
   if (!project) {
     return {
@@ -28,7 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const coverUrl = project.coverImage?.asset ? urlFor(project.coverImage).url() : "";
 
   return {
-    title: `${project.title} — ${categorySlug.toUpperCase()} // RAPHREV`,
+    title: `${project.title} — ${(project.category?.title || categoryCand.slug).toUpperCase()} // RAPHREV`,
     description:
       project.description ||
       `Editorial photography archive for ${project.title} by Ajay Johnson.`,
@@ -50,14 +74,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const { category: categorySlug, project: projectSlug } = await params;
+  const { category: rawCategorySlug, project: rawProjectSlug } = await params;
+  const projectCand = getSlugCandidates(rawProjectSlug);
+  const categoryCand = getSlugCandidates(rawCategorySlug);
 
-  const [project, settings] = await Promise.all([
+  let [project, settings] = await Promise.all([
     safeSanityFetch<SanityProject | null>(
       PROJECT_BY_SLUGS_QUERY,
-      { categorySlug, projectSlug },
+      {
+        categorySlug: categoryCand.slug,
+        categorySlugs: categoryCand.slugs,
+        categorySlugsLower: categoryCand.slugsLower,
+        projectSlug: projectCand.slug,
+        projectSlugs: projectCand.slugs,
+        projectSlugsLower: projectCand.slugsLower,
+      },
       null,
-      ['project', `project:${projectSlug}`, 'category']
+      ['project', `project:${projectCand.slug}`, 'category']
     ),
     safeSanityFetch<SanitySiteSettings | null>(
       SITE_SETTINGS_QUERY,
@@ -67,13 +100,28 @@ export default async function Page({ params }: PageProps) {
     ),
   ]);
 
+  if (!project) {
+    project = await safeSanityFetch<SanityProject | null>(
+      PROJECT_BY_SLUG_FALLBACK_QUERY,
+      {
+        projectSlug: projectCand.slug,
+        projectSlugs: projectCand.slugs,
+        projectSlugsLower: projectCand.slugsLower,
+      },
+      null,
+      ['project', `project:${projectCand.slug}`, 'category']
+    );
+  }
+
   if (!project || !project.category) {
     notFound();
   }
 
   const category = project.category;
   const categoryProjects = category.projects || [];
-  const currentIdx = categoryProjects.findIndex((p) => p.slug === projectSlug);
+  const currentIdx = categoryProjects.findIndex(
+    (p) => p._id === project._id || isSlugMatch(p.slug, project.slug)
+  );
 
   const prevProject = currentIdx > 0 ? categoryProjects[currentIdx - 1] : undefined;
   const nextProject =
