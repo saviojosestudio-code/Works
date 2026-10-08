@@ -11,7 +11,7 @@ export interface SlideTabItem {
   isActive?: boolean;
 }
 
-export type SlideTabsVariant = "default" | "titanium" | "red";
+export type SlideTabsVariant = "default" | "titanium";
 
 interface SlideTabsProps {
   tabs: SlideTabItem[];
@@ -31,11 +31,6 @@ const variantStyles: Record<
   titanium: {
     border: "border-titanium/60",
     cursor: "bg-titanium/25",
-    text: "text-off-white",
-  },
-  red: {
-    border: "border-racing-red/80",
-    cursor: "bg-racing-red/30",
     text: "text-off-white",
   },
 };

@@ -49,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
             {/* Follow Me */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-racing-red animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-off-white animate-pulse" />
                 <span className="text-[11px] font-medium uppercase tracking-widest text-titanium">
                   FOLLOW ME
                 </span>
@@ -61,10 +61,10 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs uppercase font-semibold text-off-white hover:text-racing-red hover:translate-x-1 transition-all flex items-center gap-1 group"
+                    className="text-xs uppercase font-semibold text-off-white hover:text-white hover:translate-x-1 transition-all flex items-center gap-1 group"
                   >
                     <span>{social.name}</span>
-                    <span className="text-xs text-titanium group-hover:text-racing-red transition-colors">
+                    <span className="text-xs text-titanium group-hover:text-white transition-colors">
                       ↗
                     </span>
                   </a>
@@ -99,7 +99,7 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
                   <a
                     key={`${phone.label}-${phone.number}`}
                     href={`tel:${phone.number.replace(/\s+/g, "")}`}
-                    className="text-xs uppercase font-semibold text-off-white block hover:text-racing-red transition-colors"
+                    className="text-xs uppercase font-semibold text-off-white block hover:text-white transition-colors"
                   >
                     {phone.label} {phone.number}
                   </a>
@@ -117,7 +117,7 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
                   <a
                     key={email}
                     href={`mailto:${email}`}
-                    className="text-xs uppercase font-semibold text-off-white hover:text-racing-red hover:underline block break-all transition-colors"
+                    className="text-xs uppercase font-semibold text-off-white hover:text-white hover:underline block break-all transition-colors"
                   >
                     {email.toUpperCase()}
                   </a>

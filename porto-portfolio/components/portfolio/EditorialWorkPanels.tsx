@@ -49,8 +49,8 @@ export const EditorialWorkPanels: React.FC<EditorialWorkPanelsProps> = ({
             {/* Subtle interactive frame highlight */}
             <div className="absolute inset-0 z-10 border border-white/0 group-hover:border-white/10 transition-colors duration-500 pointer-events-none" />
 
-            {/* Racing Red Bottom Glint Accent */}
-            <div className="absolute bottom-0 left-0 right-0 z-15 h-[2px] bg-gradient-to-r from-transparent via-racing-red to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* Bottom Glint Accent */}
+            <div className="absolute bottom-0 left-0 right-0 z-15 h-[2px] bg-gradient-to-r from-transparent via-off-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Bottom Editorial Content */}
             <div className="relative z-20 flex flex-col justify-end w-full px-6 sm:px-8 md:px-10 lg:px-7 xl:px-12 pb-10 sm:pb-12 md:pb-14 lg:pb-16 pt-28 pointer-events-none">
@@ -73,10 +73,10 @@ export const EditorialWorkPanels: React.FC<EditorialWorkPanelsProps> = ({
 
               {/* View Work CTA */}
               <div className="mt-6 sm:mt-8 flex items-center gap-2.5">
-                <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-titanium group-hover:text-racing-red transition-colors font-medium">
+                <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-titanium group-hover:text-off-white transition-colors font-medium">
                   {category.cta || "View Work"}
                 </span>
-                <span className="text-sm sm:text-base text-titanium group-hover:text-racing-red transition-transform duration-500 group-hover:translate-x-2 font-bold leading-none">
+                <span className="text-sm sm:text-base text-titanium group-hover:text-off-white transition-transform duration-500 group-hover:translate-x-2 font-bold leading-none">
                   →
                 </span>
               </div>

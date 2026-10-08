@@ -21,7 +21,7 @@ export function WorkPage() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col text-off-white selection:bg-racing-red selection:text-off-white">
+    <div className="min-h-screen flex flex-col text-off-white selection:bg-off-white selection:text-carbon">
       <Header />
 
       <main className="flex-grow pt-24 sm:pt-28 pb-20">
@@ -33,13 +33,13 @@ export function WorkPage() {
               <span className="text-[11px] font-medium uppercase tracking-widest text-titanium">
                 03 // RACING EVENTS ARCHIVE
               </span>
-              <span className="text-[11px] font-mono uppercase tracking-widest text-racing-red">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-off-white">
                 [{events.length} EVENTS // {allPhotos.length} FRAMES]
               </span>
             </div>
             
             <h1 className="text-4xl sm:text-6xl font-bold uppercase tracking-[-0.04em]">
-              Racing <span className="text-racing-red">Events</span>
+              Racing Events
             </h1>
             <p className="text-sm sm:text-base text-titanium max-w-xl">
               Select an event to view its dedicated photography archive, specs, and editorial story.
@@ -75,11 +75,11 @@ export function WorkPage() {
                     <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
                       {event.tag} // {event.photos.length} Frames
                     </span>
-                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold uppercase tracking-tight text-off-white group-hover:text-racing-red transition-colors mt-0.5 leading-tight m-0">
+                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold uppercase tracking-tight text-off-white group-hover:text-white transition-colors mt-0.5 leading-tight m-0">
                       {event.title}
                     </h2>
                   </div>
-                  <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-racing-red group-hover:underline underline-offset-4 transition-all shrink-0">
+                  <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-off-white group-hover:underline underline-offset-4 transition-all shrink-0">
                     Open Event ↗
                   </span>
                 </div>
@@ -91,7 +91,7 @@ export function WorkPage() {
           <div className="pt-12">
             <div className="flex items-center justify-between pb-6">
               <h2 className="text-2xl font-bold uppercase tracking-tight text-off-white">
-                All Event <span className="text-racing-red">Photography Stream</span>
+                All Event Photography Stream
               </h2>
 
               {/* Filter Pills */}
@@ -102,7 +102,7 @@ export function WorkPage() {
                     onClick={() => setFilter(f)}
                     className={`px-4 py-1.5 rounded-full border text-[11px] uppercase tracking-widest font-mono transition-all ${
                       filter === f
-                        ? "bg-racing-red text-off-white border-racing-red"
+                        ? "bg-off-white text-carbon border-off-white font-semibold"
                         : "border-titanium/20 text-titanium hover:border-off-white/40 hover:text-off-white bg-carbon/50"
                     }`}
                   >
@@ -149,7 +149,7 @@ export function WorkPage() {
                         <span className="text-[10px] text-titanium mb-1 font-mono uppercase tracking-widest">
                           {photo.eventTitle} // {photo.location}
                         </span>
-                        <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-off-white group-hover:text-racing-red transition-colors m-0">
+                        <h3 className="text-xl sm:text-2xl font-bold uppercase tracking-tight text-off-white group-hover:text-white transition-colors m-0">
                           {photo.title}
                         </h3>
                         <span className="text-xs text-titanium mt-1 font-mono uppercase tracking-widest">

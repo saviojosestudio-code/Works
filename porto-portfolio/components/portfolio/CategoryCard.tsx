@@ -52,8 +52,8 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/95 via-black/40 to-black/15 opacity-90 transition-opacity duration-700 group-hover:opacity-100" />
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-      {/* Racing Red Bottom Glint Accent */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 h-[2px] bg-gradient-to-r from-transparent via-racing-red/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100" />
+      {/* Bottom Glint Accent */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 h-[2px] bg-gradient-to-r from-transparent via-off-white/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100" />
 
       {/* Content Container */}
       <div className="relative z-20 flex flex-col p-6 sm:p-8 md:p-12 transition-transform duration-700 ease-out group-hover:-translate-y-2">
@@ -79,10 +79,10 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
 
         {/* CTA Link & Dynamic Hover Arrow */}
         <div className="mt-6 sm:mt-8 flex items-center gap-2">
-          <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-titanium group-hover:text-racing-red transition-colors font-medium">
+          <span className="text-xs sm:text-sm font-mono uppercase tracking-widest text-titanium group-hover:text-off-white transition-colors font-medium">
             {category.cta || `Explore ${category.title}`}
           </span>
-          <span className="text-sm text-titanium group-hover:text-racing-red transition-all group-hover:translate-x-1.5 font-bold">
+          <span className="text-sm text-titanium group-hover:text-off-white transition-all group-hover:translate-x-1.5 font-bold">
             →
           </span>
         </div>

@@ -15,7 +15,7 @@ export default async function WorkPage() {
   const categories = await safeSanityFetch<SanityCategory[]>(CATEGORIES_QUERY, {}, [], ['category', 'project']);
 
   return (
-    <div className="min-h-screen w-full flex flex-col text-off-white selection:bg-racing-red selection:text-off-white bg-carbon overflow-x-hidden">
+    <div className="min-h-screen w-full flex flex-col text-off-white selection:bg-off-white selection:text-carbon bg-carbon overflow-x-hidden">
       <Header />
       <main className="w-full flex-grow flex flex-col">
         <EditorialWorkPanels categories={categories} />

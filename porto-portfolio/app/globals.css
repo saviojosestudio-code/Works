@@ -4,7 +4,6 @@
   /* Brand Colors - Single Source of Truth */
   --color-carbon: #0B0D0F;
   --color-off-white: #F3F3EF;
-  --color-racing-red: #E3262E;
   --color-titanium: #A7ADB3;
   --color-primary: #F3F3EF;
 
@@ -28,7 +27,6 @@
 :root {
   --carbon: #0B0D0F;
   --off-white: #F3F3EF;
-  --racing-red: #E3262E;
   --titanium: #A7ADB3;
   --primary: #F3F3EF;
 }
@@ -68,10 +66,10 @@ p, li, a, span, label, input, textarea, button, blockquote {
 }
 
 
-/* Racing Red text selection */
+/* Monochrome text selection */
 ::selection {
-  background-color: #E3262E;
-  color: #F3F3EF;
+  background-color: #F3F3EF;
+  color: #0B0D0F;
 }
 
 /* Hide scrollbars globally */

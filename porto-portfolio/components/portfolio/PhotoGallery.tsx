@@ -109,7 +109,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
               className={`group flex flex-col ${spanClass}`}
             >
               <div
-                className={`relative w-full overflow-hidden rounded-lg sm:rounded-xl bg-carbon/60 border border-titanium/15 transition-all duration-500 group-hover:border-racing-red/50 ${
+                className={`relative w-full overflow-hidden rounded-lg sm:rounded-xl bg-carbon/60 border border-titanium/15 transition-all duration-500 group-hover:border-off-white/40 ${
                   photo.aspect === "landscape"
                     ? spanClass === "md:col-span-12"
                       ? "aspect-[16/9] sm:aspect-[21/9]"

@@ -53,7 +53,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
   });
 
   return (
-    <div className="min-h-screen flex flex-col text-off-white selection:bg-racing-red selection:text-off-white">
+    <div className="min-h-screen flex flex-col text-off-white selection:bg-off-white selection:text-carbon">
       <Header />
 
       <main className="flex-grow pt-20 sm:pt-24 pb-24">
@@ -73,7 +73,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
 
             <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 lg:px-8 xl:px-10 pb-10 sm:pb-14 max-w-[1680px] mx-auto flex flex-col justify-end">
               <div className="flex flex-wrap items-center gap-3 mb-4">
-                <span className="px-3 py-1 bg-racing-red text-off-white text-[10px] font-mono font-bold uppercase tracking-widest rounded-sm">
+                <span className="px-3 py-1 bg-off-white text-carbon text-[10px] font-mono font-bold uppercase tracking-widest rounded-sm">
                   {project.tag || `${category.title} PROJECT`}
                 </span>
                 <span className="text-[11px] font-mono uppercase tracking-widest text-titanium drop-shadow-md">
@@ -188,7 +188,7 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
               </div>
               <Link
                 href={`/work/${category.slug}`}
-                className="text-xs font-mono uppercase tracking-widest text-racing-red hover:underline underline-offset-4"
+                className="text-xs font-mono uppercase tracking-widest text-off-white hover:underline underline-offset-4"
               >
                 View All ({projects.length})
               </Link>

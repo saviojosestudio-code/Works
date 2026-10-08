@@ -102,7 +102,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings }) => {
             <motion.span
               animate={{ opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-[2px] h-3 sm:h-3.5 bg-racing-red rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(227,38,46,0.6)]"
+              className="w-[2px] h-3 sm:h-3.5 bg-off-white rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(243,243,239,0.5)]"
               aria-hidden="true"
             />
 

@@ -181,7 +181,7 @@ export const Header: React.FC = () => {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle Navigation Menu"
           aria-expanded={mobileMenuOpen}
-          className="sm:hidden p-2 rounded-lg border border-titanium/20 text-off-white hover:text-racing-red hover:border-racing-red/50 transition-colors z-50 focus:outline-none cursor-pointer"
+          className="sm:hidden p-2 rounded-lg border border-titanium/20 text-off-white hover:text-white hover:border-white/50 transition-colors z-50 focus:outline-none cursor-pointer"
         >
           {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
@@ -218,13 +218,13 @@ export const Header: React.FC = () => {
                     }}
                     className={`text-2xl font-bold uppercase tracking-wider flex items-center justify-between pb-4 border-b border-titanium/15 transition-colors ${
                       item.isActive
-                        ? "text-racing-red"
-                        : "text-off-white hover:text-racing-red active:text-racing-red"
+                        ? "text-white"
+                        : "text-off-white hover:text-white active:text-white"
                     }`}
                   >
                     <span className="flex items-center gap-3">
                       {item.isActive && (
-                        <span className="inline-block w-2 h-2 rounded-full bg-racing-red" />
+                        <span className="inline-block w-2 h-2 rounded-full bg-white" />
                       )}
                       {item.name}
                     </span>
@@ -246,8 +246,8 @@ export const Header: React.FC = () => {
                 <span className="text-off-white font-semibold uppercase tracking-wider">
                   Ajay Johnson // RAPHREV
                 </span>
-                <span className="inline-flex items-center gap-1.5 text-[10px] text-racing-red uppercase font-semibold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-racing-red animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 text-[10px] text-off-white uppercase font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-off-white animate-pulse" />
                   Available
                 </span>
               </div>

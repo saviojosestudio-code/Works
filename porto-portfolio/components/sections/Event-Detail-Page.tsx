@@ -13,7 +13,7 @@ interface EventDetailPageProps {
 
 export function EventDetailPage({ event }: EventDetailPageProps) {
   return (
-    <div className="min-h-screen flex flex-col text-off-white selection:bg-racing-red selection:text-off-white">
+    <div className="min-h-screen flex flex-col text-off-white selection:bg-off-white selection:text-carbon">
       <Header />
 
       <main className="flex-grow pt-20 sm:pt-24 pb-20">
@@ -38,7 +38,7 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
             {/* Hero Text Overlaid */}
             <div className="absolute bottom-0 left-0 w-full px-4 sm:px-6 lg:px-8 xl:px-10 pb-12 pt-32 max-w-[1680px] mx-auto flex flex-col justify-end">
               <div className="flex items-center gap-3 mb-4">
-                <span className="px-3 py-1 bg-racing-red text-off-white text-[10px] font-bold uppercase tracking-widest rounded-sm">
+                <span className="px-3 py-1 bg-off-white text-carbon text-[10px] font-mono font-bold uppercase tracking-widest rounded-sm">
                   {event.tag}
                 </span>
                 <span className="text-[11px] font-mono uppercase tracking-widest text-titanium drop-shadow-md">
@@ -103,7 +103,7 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
               return (
                 <div
                   key={photo.id || idx}
-                  className={`group relative w-full ${spanClass} ${aspectClass} overflow-hidden rounded-none sm:rounded-xl bg-transparent border border-titanium/10 transition-all duration-500 hover:border-racing-red/40`}
+                  className={`group relative w-full ${spanClass} ${aspectClass} overflow-hidden rounded-none sm:rounded-xl bg-transparent border border-titanium/10 transition-all duration-500 hover:border-off-white/40`}
                 >
                   <Image
                     src={photo.image}

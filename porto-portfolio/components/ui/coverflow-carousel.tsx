@@ -342,7 +342,7 @@ export function CoverflowCarousel({
               type="button"
               aria-label="Previous slide"
               onClick={() => nudge(-1)}
-              className="absolute left-3 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-carbon/80 border border-titanium/30 p-2.5 text-off-white backdrop-blur transition hover:bg-carbon hover:border-racing-red"
+              className="absolute left-3 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-carbon/80 border border-titanium/30 p-2.5 text-off-white backdrop-blur transition hover:bg-carbon hover:border-off-white"
             >
               <ChevronLeft className="size-5" />
             </button>
@@ -350,7 +350,7 @@ export function CoverflowCarousel({
               type="button"
               aria-label="Next slide"
               onClick={() => nudge(1)}
-              className="absolute right-3 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-carbon/80 border border-titanium/30 p-2.5 text-off-white backdrop-blur transition hover:bg-carbon hover:border-racing-red"
+              className="absolute right-3 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-carbon/80 border border-titanium/30 p-2.5 text-off-white backdrop-blur transition hover:bg-carbon hover:border-off-white"
             >
               <ChevronRight className="size-5" />
             </button>
@@ -366,10 +366,10 @@ export function CoverflowCarousel({
           {active.href ? (
             <a
               href={active.href}
-              className="text-lg sm:text-xl font-bold uppercase tracking-tight text-off-white hover:text-racing-red transition-colors inline-flex items-center gap-2 group"
+              className="text-lg sm:text-xl font-bold uppercase tracking-tight text-off-white hover:text-white transition-colors inline-flex items-center gap-2 group"
             >
               <span>{active.title}</span>
-              <span className="text-racing-red group-hover:translate-x-1 transition-transform">→</span>
+              <span className="text-off-white group-hover:translate-x-1 transition-transform">→</span>
             </a>
           ) : (
             <p className="text-[15px] font-semibold tracking-tight text-foreground">
@@ -406,7 +406,7 @@ export function CoverflowCarousel({
               className={cn(
                 "size-2 rounded-full transition-all",
                 index === selected
-                  ? "bg-racing-red scale-125 opacity-100"
+                  ? "bg-off-white scale-125 opacity-100"
                   : "bg-titanium/40 hover:bg-titanium opacity-40",
               )}
             />

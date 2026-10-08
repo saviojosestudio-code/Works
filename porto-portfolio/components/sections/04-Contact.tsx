@@ -81,7 +81,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
 
           {submitted ? (
             <div className="flex flex-col items-center justify-center py-10 text-center gap-4 animate-in fade-in duration-300">
-              <CheckCircle2 className="w-12 h-12 text-racing-red" />
+              <CheckCircle2 className="w-12 h-12 text-off-white" />
               <div className="flex flex-col gap-1">
                 <h4 className="text-xl font-bold uppercase tracking-tight text-off-white">
                   Message Transmitted
@@ -110,7 +110,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, name: e.target.value })
                   }
-                  className="w-full px-4 py-4 bg-carbon border border-titanium/30 rounded-lg text-off-white placeholder-titanium/50 text-sm sm:text-base focus:outline-none focus:border-racing-red focus:ring-2 focus:ring-racing-red transition-colors"
+                  className="w-full px-4 py-4 bg-carbon border border-titanium/30 rounded-lg text-off-white placeholder-titanium/50 text-sm sm:text-base focus:outline-none focus:border-off-white focus:ring-2 focus:ring-off-white/20 transition-colors"
                   placeholder="Name*"
                   required
                   type="text"
@@ -124,7 +124,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, email: e.target.value })
                   }
-                  className="w-full px-4 py-4 bg-carbon border border-titanium/30 rounded-lg text-off-white placeholder-titanium/50 text-sm sm:text-base focus:outline-none focus:border-racing-red focus:ring-2 focus:ring-racing-red transition-colors"
+                  className="w-full px-4 py-4 bg-carbon border border-titanium/30 rounded-lg text-off-white placeholder-titanium/50 text-sm sm:text-base focus:outline-none focus:border-off-white focus:ring-2 focus:ring-off-white/20 transition-colors"
                   placeholder="Email*"
                   required
                   type="email"
@@ -138,7 +138,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, message: e.target.value })
                   }
-                  className="w-full px-4 py-4 bg-carbon border border-titanium/30 rounded-lg text-off-white placeholder-titanium/50 text-sm sm:text-base focus:outline-none focus:border-racing-red focus:ring-2 focus:ring-racing-red transition-colors resize-none"
+                  className="w-full px-4 py-4 bg-carbon border border-titanium/30 rounded-lg text-off-white placeholder-titanium/50 text-sm sm:text-base focus:outline-none focus:border-off-white focus:ring-2 focus:ring-off-white/20 transition-colors resize-none"
                   placeholder="Message*"
                   required
                   rows={4}
@@ -148,7 +148,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ settings }) => {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full py-4 px-6 bg-racing-red text-off-white rounded-xl uppercase text-xs tracking-widest font-semibold transition-all hover:bg-racing-red/90 hover:scale-[1.01] active:scale-[0.99] cursor-pointer mt-1 text-center shadow-lg shadow-racing-red/25 disabled:opacity-50"
+                className="w-full py-4 px-6 bg-off-white text-carbon rounded-xl uppercase text-xs tracking-widest font-semibold transition-all hover:bg-white hover:scale-[1.01] active:scale-[0.99] cursor-pointer mt-1 text-center shadow-lg shadow-black/25 disabled:opacity-50"
               >
                 {submitting ? "Sending..." : "Submit Now"}
               </button>

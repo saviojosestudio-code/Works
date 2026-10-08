@@ -25,7 +25,7 @@ export default async function Home() {
   ]);
 
   return (
-    <div className="min-h-screen flex flex-col relative w-full text-off-white selection:bg-racing-red selection:text-off-white">
+    <div className="min-h-screen flex flex-col relative w-full text-off-white selection:bg-off-white selection:text-carbon">
       {/* Editorial Top Navigation */}
       <Header />
 

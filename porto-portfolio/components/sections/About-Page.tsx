@@ -17,7 +17,7 @@ export function AboutPage({ siteSettings }: AboutPageProps) {
     : "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1400&q=90";
 
   return (
-    <div className="min-h-screen flex flex-col text-off-white selection:bg-racing-red selection:text-off-white">
+    <div className="min-h-screen flex flex-col text-off-white selection:bg-off-white selection:text-carbon">
       <main className="flex-grow flex items-start justify-center pt-24 pb-12 sm:pt-28 md:pt-32 md:pb-24">
         <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-start md:items-stretch">
           {/* Text column (matching Hero Description & Contact glass card effect) */}
@@ -54,7 +54,7 @@ export function AboutPage({ siteSettings }: AboutPageProps) {
               )}
             </div>
 
-            <blockquote className="border-l-2 border-racing-red pl-4 italic text-off-white/80 mt-2 text-sm sm:text-base md:text-lg text-left">
+            <blockquote className="border-l-2 border-off-white pl-4 italic text-off-white/80 mt-2 text-sm sm:text-base md:text-lg text-left">
               <p>
                 {siteSettings?.aboutQuote
                   ? `“${siteSettings.aboutQuote}”`

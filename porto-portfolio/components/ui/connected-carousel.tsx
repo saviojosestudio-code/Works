@@ -480,7 +480,7 @@ export function CalendlyCarousel({
         })}
       </div>
 
-      {/* Progress tab bar — racing-red fill on off-white/titanium track */}
+      {/* Progress tab bar — off-white fill on titanium track */}
       <div role="tablist" aria-label="Testimonials" className="flex items-center gap-2 mt-6">
         {items.map((item, idx) => {
           const isSelected = idx === activeIndex;

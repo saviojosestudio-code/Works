@@ -25,7 +25,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       className="group cursor-pointer flex flex-col gap-5 sm:gap-6 w-full"
     >
       {/* Massive Cinematic Frame */}
-      <div className="relative w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[24/10] overflow-hidden rounded-lg sm:rounded-xl bg-carbon border border-titanium/15 transition-all duration-500 group-hover:border-racing-red/50">
+      <div className="relative w-full aspect-[16/10] sm:aspect-[21/9] lg:aspect-[24/10] overflow-hidden rounded-lg sm:rounded-xl bg-carbon border border-titanium/15 transition-all duration-500 group-hover:border-off-white/40">
         <Image
           src={project.coverImage}
           alt={project.title}
@@ -52,7 +52,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
 
         {/* Floating Frame Count (Top Right) */}
         <div className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10">
-          <span className="px-2.5 py-1 bg-racing-red/90 text-off-white text-[10px] font-mono font-bold uppercase tracking-wider rounded">
+          <span className="px-2.5 py-1 bg-off-white text-carbon text-[10px] font-mono font-bold uppercase tracking-wider rounded">
             {frameCount} {frameCount === 1 ? "Frame" : "Frames"}
           </span>
         </div>
@@ -73,12 +73,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               {project.year || project.date || "2026"} // {project.location || "DUBAI"}
             </span>
             {project.client && (
-              <span className="text-[10px] font-mono text-racing-red uppercase tracking-wider">
+              <span className="text-[10px] font-mono text-off-white uppercase tracking-wider">
                 • {project.client}
               </span>
             )}
           </div>
-          <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-off-white group-hover:text-racing-red transition-colors leading-tight m-0">
+          <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-off-white group-hover:text-white transition-colors leading-tight m-0">
             {project.title}
           </h3>
           {project.description && (
@@ -89,10 +89,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
 
         <div className="flex items-center gap-2 shrink-0 pb-1">
-          <span className="text-xs font-mono uppercase tracking-widest text-racing-red group-hover:underline underline-offset-4 transition-all">
+          <span className="text-xs font-mono uppercase tracking-widest text-off-white group-hover:underline underline-offset-4 transition-all">
             Open Project
           </span>
-          <span className="text-sm text-racing-red group-hover:translate-x-1 transition-transform">
+          <span className="text-sm text-off-white group-hover:translate-x-1 transition-transform">
             ↗
           </span>
         </div>
