@@ -12,7 +12,29 @@ export const projectPhoto = defineType({
       options: {
         hotspot: true,
       },
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule.custom((image, context) => {
+          const parent = context.parent as { videoFile?: unknown; videoUrl?: unknown } | undefined
+          if (!image && !parent?.videoFile && !parent?.videoUrl) {
+            return 'Image is required (unless a video is provided)'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'videoFile',
+      title: 'Video File (Optional)',
+      type: 'file',
+      options: {
+        accept: 'video/*',
+      },
+      description: 'Upload a video clip if this media item is a video',
+    }),
+    defineField({
+      name: 'videoUrl',
+      title: 'External Video URL (Optional)',
+      type: 'url',
+      description: 'Or paste an external MP4, WebM, or streaming video URL',
     }),
     defineField({
       name: 'alt',

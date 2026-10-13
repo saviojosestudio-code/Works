@@ -35,6 +35,7 @@ export interface SanityProjectSpecs {
 
 export interface SanityProjectPhoto {
   _key?: string
+  _type?: string
   title?: string
   subtitle?: string
   location?: string
@@ -42,7 +43,27 @@ export interface SanityProjectPhoto {
   category?: string
   alt?: string
   image?: SanityImage
+  poster?: SanityImage
+  videoUrl?: string
+  videoFile?: SanityFile
 }
+
+export interface SanityProjectVideo {
+  _key?: string
+  _type?: string
+  title?: string
+  subtitle?: string
+  location?: string
+  aspect?: 'landscape' | 'portrait'
+  category?: string
+  alt?: string
+  poster?: SanityImage
+  videoUrl?: string
+  videoFile?: SanityFile
+  image?: SanityImage
+}
+
+export type SanityProjectMedia = SanityProjectPhoto | SanityProjectVideo
 
 export interface SanityProjectSummary {
   _id: string
@@ -67,7 +88,7 @@ export interface SanityProject {
   description?: string
   coverImage?: SanityImage
   specs?: SanityProjectSpecs
-  images?: SanityProjectPhoto[]
+  images?: SanityProjectMedia[]
   category?: SanityCategory
 }
 

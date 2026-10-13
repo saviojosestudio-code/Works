@@ -208,7 +208,7 @@ export function CalendlyCarousel({
   const activeDimensions = {
     desktop: { width: 762, height: 513 },
     tablet: { width: Math.min(680, viewportWidth - 48), height: 460 },
-    mobile: { width: Math.min(360, viewportWidth - 32), height: 520 },
+    mobile: { width: Math.min(380, viewportWidth - 24), height: 610 },
   }[tier];
 
   return (
@@ -274,9 +274,9 @@ export function CalendlyCarousel({
             if (tier === "mobile") {
               const activeW = activeDimensions.width;
               const activeH = activeDimensions.height;
-              const gap = 16;
-              const peekW = 60;
-              const peekH = 430;
+              const gap = 12;
+              const peekW = 46;
+              const peekH = 510;
               if (offset === 0)
                 return { x: -activeW / 2, y: -activeH / 2, width: activeW, height: activeH, opacity: 1, zIndex: 0, pointerEvents: "auto" as const };
               if (offset === -1)
@@ -380,8 +380,8 @@ export function CalendlyCarousel({
                       sizes="(max-width: 768px) 60px, (max-width: 1120px) 100px, 105px"
                       unoptimized
                       draggable={false}
-                      style={{ objectFit: "cover", objectPosition: "top center" }}
-                      className="size-full object-cover object-top grayscale contrast-[1.1]"
+                      style={{ objectFit: "cover", objectPosition: "center" }}
+                      className="size-full object-cover object-center grayscale contrast-[1.1]"
                     />
                     {/* Dark carbon overlay on inactive cards */}
                     <div className="absolute inset-0 bg-carbon/60 hover:bg-carbon/40 transition-colors" />
@@ -395,24 +395,24 @@ export function CalendlyCarousel({
                     animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : offset < 0 ? -822 : 822 }}
                     transition={TRANSITION_SPRING}
                     className={cn(
-                      "size-full flex flex-col md:flex-row p-4 sm:p-6 md:p-7 lg:p-8 gap-4 sm:gap-5 md:gap-7",
+                      "size-full flex flex-col md:flex-row p-4 sm:p-6 md:p-7 lg:p-8 gap-3 sm:gap-4 md:gap-7",
                       !isActive && "pointer-events-none"
                     )}
                   >
                     {/* ── Left: text content ── */}
-                    <div className="flex-1 min-w-0 flex flex-col items-center md:items-start text-center md:text-left justify-between gap-3 sm:gap-4 overflow-hidden">
+                    <div className="flex-none md:flex-1 min-w-0 w-full flex flex-col items-center md:items-start text-center md:text-left justify-start md:justify-between gap-2 sm:gap-2.5 md:gap-4">
 
                       {/* Stat headline */}
                       <h3
                         title={item.stat}
-                        className="text-base sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold uppercase tracking-tight text-off-white leading-tight w-full"
+                        className="text-xs sm:text-sm md:text-xl lg:text-2xl xl:text-3xl font-bold uppercase tracking-tight text-off-white leading-tight w-full"
                         style={{ letterSpacing: "-0.03em" }}
                       >
                         {item.stat}
                       </h3>
 
                       {/* Quote */}
-                      <div className="relative w-full min-w-0 my-auto">
+                      <div className="relative w-full min-w-0 my-0.5 sm:my-auto">
                         {/* Decorative quote mark */}
                         <span
                           aria-hidden="true"
@@ -421,7 +421,7 @@ export function CalendlyCarousel({
                         >
                           &ldquo;
                         </span>
-                        <p className="text-xs sm:text-sm md:text-base text-off-white/80 leading-relaxed font-light md:pl-6 line-clamp-4 sm:line-clamp-none">
+                        <p className="text-[11px] sm:text-xs md:text-base text-off-white/80 leading-relaxed font-light md:pl-6 line-clamp-3 sm:line-clamp-none">
                           {item.quote}
                         </p>
                       </div>
@@ -452,10 +452,9 @@ export function CalendlyCarousel({
                     {/* ── Right: portrait image ── */}
                     <div
                       className={cn(
-                        "relative shrink-0 overflow-hidden bg-carbon border border-titanium/15",
-                        "w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[3/4]",
-                        "max-h-[220px] sm:max-h-[240px] md:max-h-none",
-                        "md:w-[220px] lg:w-[280px] xl:w-[310px] md:h-full",
+                        "relative overflow-hidden bg-carbon border border-titanium/15",
+                        "w-full flex-1 min-h-[270px] sm:min-h-[290px]",
+                        "md:min-h-0 md:h-full md:w-[220px] lg:w-[280px] xl:w-[310px] md:flex-none md:shrink-0",
                         "rounded-xl sm:rounded-2xl"
                       )}
                     >
@@ -466,11 +465,11 @@ export function CalendlyCarousel({
                         sizes="(max-width: 640px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 240px, 310px"
                         unoptimized
                         draggable={false}
-                        style={{ objectFit: "cover", objectPosition: "top center" }}
-                        className="size-full object-cover object-top grayscale-[15%] contrast-[1.05] transition-all duration-700"
+                        style={{ objectFit: "cover", objectPosition: "center" }}
+                        className="size-full object-cover object-center grayscale-[15%] contrast-[1.05] transition-all duration-700"
                       />
                       {/* Subtle bottom vignette */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-carbon/50 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-carbon/30 via-transparent to-transparent pointer-events-none" />
                     </div>
                   </motion.div>
                 </div>

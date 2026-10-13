@@ -94,11 +94,15 @@ export const project = defineType({
     }),
     defineField({
       name: 'images',
-      title: 'Gallery Photos',
+      title: 'Gallery Media (Photos & Videos)',
+      description: 'Add photos and videos to this project archive',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'projectPhoto',
+        }),
+        defineArrayMember({
+          type: 'projectVideo',
         }),
       ],
     }),

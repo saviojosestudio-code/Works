@@ -120,6 +120,7 @@ export const PROJECT_BY_SLUGS_QUERY = defineQuery(`
     images[] {
       ...,
       _key,
+      _type,
       title,
       subtitle,
       location,
@@ -128,6 +129,20 @@ export const PROJECT_BY_SLUGS_QUERY = defineQuery(`
       alt,
       image {
         ...,
+        asset-> {
+          _id,
+          url
+        }
+      },
+      poster {
+        ...,
+        asset-> {
+          _id,
+          url
+        }
+      },
+      videoUrl,
+      videoFile {
         asset-> {
           _id,
           url
@@ -188,6 +203,7 @@ export const PROJECT_BY_SLUG_FALLBACK_QUERY = defineQuery(`
     images[] {
       ...,
       _key,
+      _type,
       title,
       subtitle,
       location,
@@ -196,6 +212,20 @@ export const PROJECT_BY_SLUG_FALLBACK_QUERY = defineQuery(`
       alt,
       image {
         ...,
+        asset-> {
+          _id,
+          url
+        }
+      },
+      poster {
+        ...,
+        asset-> {
+          _id,
+          url
+        }
+      },
+      videoUrl,
+      videoFile {
         asset-> {
           _id,
           url

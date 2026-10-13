@@ -55,7 +55,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
   const items: CarouselItem[] = testimonials && testimonials.length > 0
     ? testimonials.map((t) => {
         const imageUrl = t.avatar?.asset
-          ? urlFor(t.avatar).width(800).auto("format").fit("crop").url()
+          ? urlFor(t.avatar).width(800).auto("format").url()
           : "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800";
         return {
           id: t._id,
