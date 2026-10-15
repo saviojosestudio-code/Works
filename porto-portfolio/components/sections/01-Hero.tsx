@@ -91,14 +91,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings }) => {
           </div>
         )}
 
-        {/* Bottom-left floating dynamic text — WhisperText word-by-word animation */}
+        {/* Floating dynamic text — WhisperText word-by-word animation (bottom-center on mobile, bottom-left on sm+) */}
         {floatingBadge && (
-          <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-8 lg:left-8 z-20 flex items-center gap-2.5 sm:gap-3 pointer-events-none select-none max-w-[92%]">
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 sm:left-6 sm:translate-x-0 lg:left-8 sm:bottom-6 lg:bottom-8 z-20 flex items-center justify-center sm:justify-start gap-2.5 sm:gap-3 pointer-events-none select-none w-max max-w-[92%]">
             {/* WhisperText — staggered word-by-word entrance */}
             <WhisperText
               text={floatingBadge}
-              className="text-[11px] sm:text-xs md:text-sm font-mono font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-off-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] leading-none"
-              delay={400}
+              className="text-[11px] sm:text-xs md:text-sm font-mono font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-off-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] leading-none justify-center sm:justify-start text-center sm:text-left"
+              delay={600}
               duration={0.7}
               x={-20}
               y={0}
