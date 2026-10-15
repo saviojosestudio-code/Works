@@ -93,72 +93,84 @@ export const ProjectPage: React.FC<ProjectPageProps> = ({
           </div>
 
           <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-10 sm:pt-12">
-            {project.description && (
-              <p className="text-base sm:text-xl md:text-2xl text-off-white/90 max-w-5xl leading-relaxed font-light mb-8">
-                {project.description}
-              </p>
-            )}
+            {(project.description || (project.specs && Object.keys(project.specs).length > 0)) && (
+              <div className="relative w-full rounded-2xl bg-transparent border border-titanium/20 backdrop-blur-sm p-6 sm:p-8 md:p-10">
+                {project.description && (
+                  <p
+                    className={`text-base sm:text-xl md:text-2xl text-off-white/90 max-w-5xl leading-relaxed font-light ${
+                      project.specs && Object.keys(project.specs).length > 0 ? "mb-8" : ""
+                    }`}
+                  >
+                    {project.description}
+                  </p>
+                )}
 
-            {project.specs && Object.keys(project.specs).length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-6 border-t border-titanium/15">
-                {project.specs.laps && (
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                      Distance
-                    </span>
-                    <span className="text-sm font-semibold uppercase text-off-white mt-1">
-                      {project.specs.laps}
-                    </span>
-                  </div>
-                )}
-                {project.specs.turns && (
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                      Layout
-                    </span>
-                    <span className="text-sm font-semibold uppercase text-off-white mt-1">
-                      {project.specs.turns}
-                    </span>
-                  </div>
-                )}
-                {project.specs.duration && (
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                      Duration
-                    </span>
-                    <span className="text-sm font-semibold uppercase text-off-white mt-1">
-                      {project.specs.duration}
-                    </span>
-                  </div>
-                )}
-                {project.specs.role && (
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                      Role
-                    </span>
-                    <span className="text-sm font-semibold uppercase text-off-white mt-1">
-                      {project.specs.role}
-                    </span>
-                  </div>
-                )}
-                {project.specs.deliverables && (
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                      Deliverables
-                    </span>
-                    <span className="text-sm font-semibold uppercase text-off-white mt-1">
-                      {project.specs.deliverables}
-                    </span>
-                  </div>
-                )}
-                {project.specs.cameraTech && (
-                  <div className="flex flex-col col-span-2 sm:col-span-2">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
-                      Capture Rig
-                    </span>
-                    <span className="text-xs sm:text-sm font-semibold uppercase text-off-white mt-1 truncate">
-                      {project.specs.cameraTech}
-                    </span>
+                {project.specs && Object.keys(project.specs).length > 0 && (
+                  <div
+                    className={`grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 ${
+                      project.description ? "pt-6 border-t border-titanium/15" : ""
+                    }`}
+                  >
+                    {project.specs.laps && (
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
+                          Distance
+                        </span>
+                        <span className="text-sm font-semibold uppercase text-off-white mt-1">
+                          {project.specs.laps}
+                        </span>
+                      </div>
+                    )}
+                    {project.specs.turns && (
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
+                          Layout
+                        </span>
+                        <span className="text-sm font-semibold uppercase text-off-white mt-1">
+                          {project.specs.turns}
+                        </span>
+                      </div>
+                    )}
+                    {project.specs.duration && (
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
+                          Duration
+                        </span>
+                        <span className="text-sm font-semibold uppercase text-off-white mt-1">
+                          {project.specs.duration}
+                        </span>
+                      </div>
+                    )}
+                    {project.specs.role && (
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
+                          Role
+                        </span>
+                        <span className="text-sm font-semibold uppercase text-off-white mt-1">
+                          {project.specs.role}
+                        </span>
+                      </div>
+                    )}
+                    {project.specs.deliverables && (
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
+                          Deliverables
+                        </span>
+                        <span className="text-sm font-semibold uppercase text-off-white mt-1">
+                          {project.specs.deliverables}
+                        </span>
+                      </div>
+                    )}
+                    {project.specs.cameraTech && (
+                      <div className="flex flex-col col-span-2 sm:col-span-2">
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">
+                          Capture Rig
+                        </span>
+                        <span className="text-xs sm:text-sm font-semibold uppercase text-off-white mt-1 truncate">
+                          {project.specs.cameraTech}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>

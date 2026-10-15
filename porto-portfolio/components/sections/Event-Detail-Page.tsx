@@ -54,33 +54,35 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
 
           {/* Details & Specs Below Hero */}
           <div className="w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-12">
-            <p className="text-lg sm:text-xl md:text-2xl text-off-white/90 max-w-5xl leading-relaxed font-light">
-              {event.details}
-            </p>
+            <div className="relative w-full rounded-2xl bg-transparent border border-titanium/20 backdrop-blur-sm p-6 sm:p-8 md:p-10">
+              <p className="text-lg sm:text-xl md:text-2xl text-off-white/90 max-w-5xl leading-relaxed font-light mb-8">
+                {event.details}
+              </p>
 
-            {/* Event Specs Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-titanium/15 mt-4">
-              {event.specs.laps && (
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">Distance</span>
-                  <span className="text-sm font-semibold uppercase text-off-white">{event.specs.laps}</span>
+              {/* Event Specs Bar */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-titanium/15">
+                {event.specs.laps && (
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">Distance</span>
+                    <span className="text-sm font-semibold uppercase text-off-white">{event.specs.laps}</span>
+                  </div>
+                )}
+                {event.specs.turns && (
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">Circuit Layout</span>
+                    <span className="text-sm font-semibold uppercase text-off-white">{event.specs.turns}</span>
+                  </div>
+                )}
+                {event.specs.elevation && (
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">Elevation</span>
+                    <span className="text-sm font-semibold uppercase text-off-white">{event.specs.elevation}</span>
+                  </div>
+                )}
+                <div className="flex flex-col col-span-2 sm:col-span-1">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">Capture Rig</span>
+                  <span className="text-xs font-semibold uppercase text-off-white truncate">{event.specs.cameraTech}</span>
                 </div>
-              )}
-              {event.specs.turns && (
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">Circuit Layout</span>
-                  <span className="text-sm font-semibold uppercase text-off-white">{event.specs.turns}</span>
-                </div>
-              )}
-              {event.specs.elevation && (
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">Elevation</span>
-                  <span className="text-sm font-semibold uppercase text-off-white">{event.specs.elevation}</span>
-                </div>
-              )}
-              <div className="flex flex-col col-span-2 sm:col-span-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-titanium">Capture Rig</span>
-                <span className="text-xs font-semibold uppercase text-off-white truncate">{event.specs.cameraTech}</span>
               </div>
             </div>
           </div>
