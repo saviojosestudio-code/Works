@@ -7,6 +7,7 @@ import { Bars } from "@/components/ui/bars";
 import { cn } from "@/lib/utils";
 import { urlFor } from "@/lib/sanity/image";
 import type { SanitySiteSettings } from "@/lib/sanity/types";
+import WhisperText from "@/components/ui/whisper-text";
 
 interface HeroSectionProps {
   settings?: SanitySiteSettings | null;
@@ -90,27 +91,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ settings }) => {
           </div>
         )}
 
-        {/* Bottom-left floating dynamic text — matching reference design (single horizontal line, no box) */}
+        {/* Bottom-left floating dynamic text — WhisperText word-by-word animation */}
         {floatingBadge && (
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-8 lg:left-8 z-20 flex items-center gap-2.5 sm:gap-3 pointer-events-none select-none max-w-[92%]"
-          >
-            {/* Subtle vertical indicator bar */}
-            <motion.span
-              animate={{ opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              className="w-[2px] h-3 sm:h-3.5 bg-off-white rounded-full flex-shrink-0 shadow-[0_0_8px_rgba(243,243,239,0.5)]"
-              aria-hidden="true"
+          <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-8 lg:left-8 z-20 flex items-center gap-2.5 sm:gap-3 pointer-events-none select-none max-w-[92%]">
+            {/* WhisperText — staggered word-by-word entrance */}
+            <WhisperText
+              text={floatingBadge}
+              className="text-[11px] sm:text-xs md:text-sm font-mono font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-off-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] leading-none"
+              delay={400}
+              duration={0.7}
+              x={-20}
+              y={0}
+              triggerStart="top 100%"
             />
-
-            {/* Dynamic text from Sanity — single horizontal line, uppercase, refined tracking */}
-            <span className="text-[11px] sm:text-xs md:text-sm font-mono font-semibold uppercase tracking-[0.18em] sm:tracking-[0.22em] text-off-white/95 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] whitespace-nowrap truncate leading-none">
-              {floatingBadge}
-            </span>
-          </motion.div>
+          </div>
         )}
       </div>
     </section>
