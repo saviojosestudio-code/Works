@@ -1,4 +1,10 @@
 {
+  "scripts": {
+    "sanity": "npm --prefix studio-ajay-portfolio run dev",
+    "studio": "npm --prefix studio-ajay-portfolio run dev",
+    "dev:studio": "npm --prefix studio-ajay-portfolio run dev",
+    "dev:porto": "npm --prefix porto-portfolio run dev"
+  },
   "dependencies": {
     "@sanity/image-url": "^2.1.1",
     "next-sanity": "^13.3.4"
