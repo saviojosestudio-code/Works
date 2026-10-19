@@ -208,7 +208,7 @@ export function CalendlyCarousel({
   const activeDimensions = {
     desktop: { width: 762, height: 513 },
     tablet: { width: Math.min(680, viewportWidth - 48), height: 460 },
-    mobile: { width: Math.min(380, viewportWidth - 24), height: 610 },
+    mobile: { width: Math.min(380, viewportWidth - 24), height: 620 },
   }[tier];
 
   return (
@@ -276,7 +276,7 @@ export function CalendlyCarousel({
               const activeH = activeDimensions.height;
               const gap = 12;
               const peekW = 46;
-              const peekH = 510;
+              const peekH = Math.min(520, activeH - 90);
               if (offset === 0)
                 return { x: -activeW / 2, y: -activeH / 2, width: activeW, height: activeH, opacity: 1, zIndex: 0, pointerEvents: "auto" as const };
               if (offset === -1)
@@ -395,17 +395,17 @@ export function CalendlyCarousel({
                     animate={{ opacity: isActive ? 1 : 0, x: isActive ? 0 : offset < 0 ? -822 : 822 }}
                     transition={TRANSITION_SPRING}
                     className={cn(
-                      "size-full flex flex-col md:flex-row p-4 sm:p-6 md:p-7 lg:p-8 gap-3 sm:gap-4 md:gap-7",
+                      "size-full flex flex-col md:flex-row p-4 sm:p-5 md:p-7 lg:p-8 gap-3 sm:gap-4 md:gap-7",
                       !isActive && "pointer-events-none"
                     )}
                   >
                     {/* ── Left: text content ── */}
-                    <div className="flex-none md:flex-1 min-w-0 w-full flex flex-col items-center md:items-start text-center md:text-left justify-start md:justify-between gap-2 sm:gap-2.5 md:gap-4">
+                    <div className="flex-none md:flex-1 min-w-0 w-full flex flex-col items-center md:items-start text-center md:text-left justify-start md:justify-between gap-2.5 sm:gap-3 md:gap-4">
 
                       {/* Stat headline */}
                       <h3
                         title={item.stat}
-                        className="text-xs sm:text-sm md:text-xl lg:text-2xl xl:text-3xl font-bold uppercase tracking-tight text-off-white leading-tight w-full"
+                        className="text-xs sm:text-sm md:text-xl lg:text-2xl xl:text-3xl font-bold uppercase tracking-tight text-off-white leading-tight w-full break-words"
                         style={{ letterSpacing: "-0.03em" }}
                       >
                         {item.stat}
@@ -421,14 +421,14 @@ export function CalendlyCarousel({
                         >
                           &ldquo;
                         </span>
-                        <p className="text-[11px] sm:text-xs md:text-base text-off-white/80 leading-relaxed font-light md:pl-6 line-clamp-3 sm:line-clamp-none">
+                        <p className="text-xs sm:text-xs md:text-base text-off-white/85 leading-relaxed font-light md:pl-6 break-words whitespace-pre-line">
                           {item.quote}
                         </p>
                       </div>
 
                       {/* Author badge — pill + connector + role pill */}
-                      <div className="flex min-w-0 w-full overflow-hidden items-center md:items-start justify-center md:justify-start">
-                        <div className="flex flex-col items-center md:items-start min-w-0">
+                      <div className="flex min-w-0 w-full items-center md:items-start justify-center md:justify-start">
+                        <div className="flex flex-col items-center md:items-start min-w-0 max-w-full">
                           {/* Name tag */}
                           <span className="inline-flex items-center rounded-sm py-1 px-3 text-[10px] font-mono uppercase tracking-widest bg-off-white text-carbon shrink-0 select-none font-semibold">
                             {item.author}
@@ -442,8 +442,8 @@ export function CalendlyCarousel({
                           </div>
 
                           {/* Role tag */}
-                          <span className="inline-flex items-center rounded-sm py-1 px-3 text-[10px] font-mono uppercase tracking-widest bg-carbon border border-titanium/30 text-titanium max-w-full select-none">
-                            <span title={item.role} className="truncate">{item.role}</span>
+                          <span className="inline-flex items-center rounded-sm py-1 px-3 text-[10px] font-mono uppercase tracking-widest bg-carbon border border-titanium/30 text-titanium max-w-full select-none text-center md:text-left">
+                            <span title={item.role} className="break-words line-clamp-2 md:line-clamp-none md:truncate">{item.role}</span>
                           </span>
                         </div>
                       </div>
@@ -453,7 +453,7 @@ export function CalendlyCarousel({
                     <div
                       className={cn(
                         "relative overflow-hidden bg-carbon border border-titanium/15",
-                        "w-full flex-1 min-h-[270px] sm:min-h-[290px]",
+                        "w-full flex-1 min-h-[190px] sm:min-h-[240px]",
                         "md:min-h-0 md:h-full md:w-[220px] lg:w-[280px] xl:w-[310px] md:flex-none md:shrink-0",
                         "rounded-xl sm:rounded-2xl"
                       )}
