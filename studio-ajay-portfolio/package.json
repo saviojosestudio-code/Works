@@ -8,8 +8,8 @@
     "build": "sanity build",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
-    "dev": "sanity dev",
-    "sanity": "sanity dev",
+    "dev": "sanity dev --no-auto-updates",
+    "sanity": "sanity dev --no-auto-updates",
     "start": "sanity start"
   },
   "keywords": [
