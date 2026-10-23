@@ -27,7 +27,7 @@ const moonWalk = localFont({
 
 
 export const metadata: Metadata = {
-  title: "RAPHREV // AJAY — Editorial Motorsport Photographer & Visual Artist",
+  title: "RAPHREV®",
   description:
     "Dubai-based editorial photographer and visual storyteller specializing in premier motorsport, hypercars, and high-contrast architecture across the Middle East, Europe, and Asia.",
   keywords: [

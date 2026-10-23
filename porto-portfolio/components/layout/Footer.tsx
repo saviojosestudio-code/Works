@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { RAPHREV_DATA } from "@/lib/data/portfolio-data";
@@ -68,7 +68,6 @@ const navLinks = [
 
 export const Footer: React.FC<FooterProps> = ({ settings }) => {
   const { profile } = RAPHREV_DATA;
-  const [emailInput, setEmailInput] = useState("");
 
   const socials = settings?.socials?.length ? settings.socials : profile.socials;
   const phones = settings?.phones?.length ? settings.phones : profile.phones;
@@ -87,9 +86,6 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
         s.name.toLowerCase().includes("x")
     )?.url || "https://x.com";
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
 
   return (
     <footer className="flex flex-col w-full bg-transparent pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] md:pb-0">
@@ -116,8 +112,8 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
             }}
           />
 
-          {/* 1. Main Footer Four-Column Layout */}
-          <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-8 xl:gap-12 items-start">
+          {/* 1. Main Footer Three-Column Layout */}
+          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 items-start">
             {/* Column 1 — Brand Logo */}
             <div className="flex flex-col items-start">
               <Link
@@ -173,33 +169,6 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
                   </a>
                 ))}
               </div>
-            </div>
-
-            {/* Column 4 — Email Me */}
-            <div className="flex flex-col">
-              <h4 className="text-[11px] sm:text-xs font-mono font-medium uppercase tracking-widest text-titanium mb-3 sm:mb-4">
-                Email me
-              </h4>
-              <form
-                onSubmit={handleSubscribe}
-                className="flex flex-col sm:flex-row gap-2 w-full"
-              >
-                <input
-                  type="email"
-                  value={emailInput}
-                  onChange={(e) => setEmailInput(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                  aria-label="Email address"
-                  className="bg-white/[0.04] border border-white/10 rounded-lg px-3.5 py-2 text-xs sm:text-sm text-off-white placeholder:text-titanium/50 focus:outline-none focus:border-white/30 transition-colors flex-grow min-w-0"
-                />
-                <button
-                  type="submit"
-                  className="bg-[#E10600] hover:bg-[#ff1a12] active:bg-[#c00500] text-white text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider px-4 py-2 rounded-lg transition-colors duration-200 shrink-0 cursor-pointer"
-                >
-                  SUBSCRIBE
-                </button>
-              </form>
             </div>
           </div>
 
