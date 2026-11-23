@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bars } from "@/components/ui/bars";
@@ -11,24 +11,46 @@ export interface LightboxImage {
 }
 
 interface ImageLightboxModalProps {
-  image: LightboxImage | null;
+  images: LightboxImage[];
+  currentIndex: number | null;
+  onIndexChange: (index: number) => void;
   onClose: () => void;
 }
 
+const SWIPE_THRESHOLD = 45;
+
 export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
-  image,
+  images,
+  currentIndex,
+  onIndexChange,
   onClose,
 }) => {
   const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+
+  const isOpen =
+    currentIndex !== null && currentIndex >= 0 && currentIndex < images.length;
+  const currentImage = isOpen ? images[currentIndex] : null;
+  const hasMultiple = images.length > 1;
+
+  const goPrev = useCallback(() => {
+    if (currentIndex === null || images.length <= 1) return;
+    onIndexChange((currentIndex - 1 + images.length) % images.length);
+  }, [currentIndex, images.length, onIndexChange]);
+
+  const goNext = useCallback(() => {
+    if (currentIndex === null || images.length <= 1) return;
+    onIndexChange((currentIndex + 1) % images.length);
+  }, [currentIndex, images.length, onIndexChange]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   useEffect(() => {
-    if (!image) {
+    if (!currentImage) {
       setIsLoading(false);
       return;
     }
@@ -39,10 +61,10 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
     } else {
       setIsLoading(true);
     }
-  }, [image]);
+  }, [currentImage?.src]);
 
   useEffect(() => {
-    if (!image) return;
+    if (!isOpen) return;
 
     const originalOverflow = document.body.style.overflow;
     const originalOverscroll = document.body.style.overscrollBehavior;
@@ -52,6 +74,12 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
+      } else if (e.key === "ArrowLeft" && hasMultiple) {
+        e.preventDefault();
+        goPrev();
+      } else if (e.key === "ArrowRight" && hasMultiple) {
+        e.preventDefault();
+        goNext();
       }
     };
 
@@ -61,20 +89,52 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
       document.body.style.overscrollBehavior = originalOverscroll;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [image, onClose]);
+  }, [isOpen, hasMultiple, goPrev, goNext, onClose]);
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!hasMultiple || e.touches.length !== 1) {
+      touchStartRef.current = null;
+      return;
+    }
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!hasMultiple || !touchStartRef.current || e.changedTouches.length !== 1) {
+      touchStartRef.current = null;
+      return;
+    }
+
+    const dx = e.changedTouches[0].clientX - touchStartRef.current.x;
+    const dy = e.changedTouches[0].clientY - touchStartRef.current.y;
+    touchStartRef.current = null;
+
+    if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy) * 1.2) {
+      if (dx < 0) {
+        goNext();
+      } else {
+        goPrev();
+      }
+    }
+  };
 
   if (!mounted) return null;
 
   return createPortal(
     <AnimatePresence>
-      {image && (
+      {currentImage && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center w-screen h-[100dvh] overflow-hidden bg-black/95 backdrop-blur-sm pt-[calc(4rem+env(safe-area-inset-top,0px))] pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] pl-[calc(0.75rem+env(safe-area-inset-left,0px))] pr-[calc(0.75rem+env(safe-area-inset-right,0px))] sm:p-10 md:p-12 lg:p-14"
+          className="fixed inset-0 z-[100] flex items-center justify-center w-screen h-[100dvh] overflow-hidden bg-black/95 backdrop-blur-sm pt-[calc(4rem+env(safe-area-inset-top,0px))] pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] pl-[calc(0.75rem+env(safe-area-inset-left,0px))] pr-[calc(0.75rem+env(safe-area-inset-right,0px))] sm:py-10 sm:px-20 md:py-12 md:px-24 lg:py-14 lg:px-28"
           onClick={onClose}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
           role="dialog"
           aria-modal="true"
           aria-label="Fullscreen image preview"
@@ -104,6 +164,58 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
             </svg>
           </button>
 
+          {/* Previous Image Arrow */}
+          {hasMultiple && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                goPrev();
+              }}
+              aria-label="Previous image"
+              className="fixed left-[calc(0.75rem+env(safe-area-inset-left,0px))] sm:left-5 md:left-6 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/15 backdrop-blur-md transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-5 h-5"
+                aria-hidden="true"
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </button>
+          )}
+
+          {/* Next Image Arrow */}
+          {hasMultiple && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                goNext();
+              }}
+              aria-label="Next image"
+              className="fixed right-[calc(0.75rem+env(safe-area-inset-right,0px))] sm:right-5 md:right-6 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/15 backdrop-blur-md transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-5 h-5"
+                aria-hidden="true"
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </button>
+          )}
+
           {/* Centered stage that bounds the image strictly within the viewport */}
           <div className="relative flex items-center justify-center w-full h-full max-w-full max-h-full overflow-hidden pointer-events-none">
             {/* Centered image loader (same Bars loader as Hero) */}
@@ -116,9 +228,9 @@ export const ImageLightboxModal: React.FC<ImageLightboxModalProps> = ({
             {/* Fullscreen Image — original aspect ratio preserved, never overflows */}
             <motion.img
               ref={imgRef}
-              key={image.src}
-              src={image.src}
-              alt={image.alt}
+              key={currentImage.src}
+              src={currentImage.src}
+              alt={currentImage.alt}
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: isLoading ? 0 : 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.96 }}

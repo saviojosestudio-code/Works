@@ -13,7 +13,12 @@ interface EventDetailPageProps {
 }
 
 export function EventDetailPage({ event }: EventDetailPageProps) {
-  const [previewImage, setPreviewImage] = useState<LightboxImage | null>(null);
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+
+  const galleryImages: LightboxImage[] = event.photos.map((photo) => ({
+    src: photo.image,
+    alt: photo.alt || photo.title,
+  }));
 
   return (
     <div className="min-h-screen flex flex-col text-off-white selection:bg-off-white selection:text-carbon">
@@ -106,10 +111,7 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
                 : "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px";
 
               const openPreview = () => {
-                setPreviewImage({
-                  src: photo.image,
-                  alt: photo.alt || photo.title,
-                });
+                setPreviewIndex(idx);
               };
 
               return (
@@ -145,8 +147,10 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
       <Footer />
 
       <ImageLightboxModal
-        image={previewImage}
-        onClose={() => setPreviewImage(null)}
+        images={galleryImages}
+        currentIndex={previewIndex}
+        onIndexChange={setPreviewIndex}
+        onClose={() => setPreviewIndex(null)}
       />
 
     </div>

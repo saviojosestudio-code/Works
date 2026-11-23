@@ -146,8 +146,15 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
     })
     .filter((media): media is GalleryMediaItem => Boolean(media && (media.videoSrc || media.src)));
 
+  const galleryImages: LightboxImage[] = normalizedMedia
+    .filter((media) => media.type === "image")
+    .map((media) => ({
+      src: media.fullSrc || media.src,
+      alt: media.alt || projectTitle,
+    }));
+
   const [showSwipeHint, setShowSwipeHint] = useState(false);
-  const [previewImage, setPreviewImage] = useState<LightboxImage | null>(null);
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
   useEffect(() => {
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     if (isTouch) {
@@ -192,12 +199,14 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
               : "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px";
 
             const isClickableImage = media.type === "image";
+            const imageIndex = isClickableImage
+              ? normalizedMedia
+                  .slice(0, index)
+                  .filter((item) => item.type === "image").length
+              : -1;
             const openPreview = () => {
-              if (!isClickableImage) return;
-              setPreviewImage({
-                src: media.fullSrc || media.src,
-                alt: media.alt || projectTitle,
-              });
+              if (!isClickableImage || imageIndex < 0) return;
+              setPreviewIndex(imageIndex);
             };
 
             return (
@@ -258,8 +267,10 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
       )}
 
       <ImageLightboxModal
-        image={previewImage}
-        onClose={() => setPreviewImage(null)}
+        images={galleryImages}
+        currentIndex={previewIndex}
+        onIndexChange={setPreviewIndex}
+        onClose={() => setPreviewIndex(null)}
       />
     </div>
   );
