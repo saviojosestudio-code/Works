@@ -6,12 +6,15 @@ import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { RacingEventDetail, EventPhoto } from "@/lib/data/event-gallery-data";
+import { ImageLightboxModal, type LightboxImage } from "@/components/ui/image-lightbox-modal";
 
 interface EventDetailPageProps {
   event: RacingEventDetail;
 }
 
 export function EventDetailPage({ event }: EventDetailPageProps) {
+  const [previewImage, setPreviewImage] = useState<LightboxImage | null>(null);
+
   return (
     <div className="min-h-screen flex flex-col text-off-white selection:bg-off-white selection:text-carbon">
       <Header />
@@ -102,10 +105,27 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
                 ? "(max-width: 768px) 100vw, 95vw"
                 : "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px";
 
+              const openPreview = () => {
+                setPreviewImage({
+                  src: photo.image,
+                  alt: photo.alt || photo.title,
+                });
+              };
+
               return (
                 <div
                   key={photo.id || idx}
-                  className={`group relative w-full ${spanClass} ${aspectClass} overflow-hidden rounded-none sm:rounded-xl bg-transparent border border-titanium/10 transition-all duration-500 hover:border-off-white/40`}
+                  onClick={openPreview}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      openPreview();
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Preview ${photo.alt || photo.title}`}
+                  className={`group relative w-full ${spanClass} ${aspectClass} overflow-hidden rounded-none sm:rounded-xl bg-transparent border border-titanium/10 transition-all duration-500 hover:border-off-white/40 cursor-pointer`}
                 >
                   <Image
                     src={photo.image}
@@ -123,6 +143,11 @@ export function EventDetailPage({ event }: EventDetailPageProps) {
       </main>
 
       <Footer />
+
+      <ImageLightboxModal
+        image={previewImage}
+        onClose={() => setPreviewImage(null)}
+      />
 
     </div>
   );

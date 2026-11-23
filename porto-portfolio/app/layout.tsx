@@ -4,6 +4,7 @@ import "./globals.css";
 import "@/components/threeui/threeui.css";
 import { RibbonFieldBackground } from "@/components/threeui/RibbonFieldBackground";
 import { SanityLive } from "@/lib/sanity/live";
+import { ScrollToTopButton } from "@/components/ui/scroll-to-top-button";
 
 import localFont from "next/font/local";
 
@@ -88,6 +89,7 @@ export default function RootLayout({
           {children}
           <SanityLive />
         </div>
+        <ScrollToTopButton />
       </body>
     </html>
   );

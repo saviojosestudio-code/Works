@@ -5,11 +5,13 @@ import Image from "next/image";
 import { PhotoItem, normalizePhotoItem } from "@/lib/data/portfolio-categories";
 import { urlFor } from "@/lib/sanity/image";
 import type { SanityProjectPhoto, SanityProjectVideo, SanityImage } from "@/lib/sanity/types";
+import { ImageLightboxModal, type LightboxImage } from "@/components/ui/image-lightbox-modal";
 
 export interface GalleryMediaItem {
   id: string;
   type: "image" | "video";
   src: string;
+  fullSrc?: string;
   videoSrc?: string;
   posterSrc?: string;
   alt: string;
@@ -61,17 +63,22 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
 
         // Resolve image source
         let imageSrc = "";
+        let fullImageSrc = "";
         if (rawItem.image?.asset) {
           try {
             imageSrc = urlFor(rawItem.image).width(1600).url();
+            fullImageSrc = urlFor(rawItem.image).width(2400).quality(90).url();
           } catch {
             imageSrc = rawItem.image.asset.url || "";
+            fullImageSrc = imageSrc;
           }
         } else if (rawItem.asset) {
           try {
             imageSrc = urlFor(rawItem).width(1600).url();
+            fullImageSrc = urlFor(rawItem).width(2400).quality(90).url();
           } catch {
             imageSrc = rawItem.asset.url || "";
+            fullImageSrc = imageSrc;
           }
         }
 
@@ -114,6 +121,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
             id,
             type: "image",
             src: imageSrc,
+            fullSrc: fullImageSrc || imageSrc,
             alt,
             aspect,
             title: rawItem.title,
@@ -139,6 +147,7 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
     .filter((media): media is GalleryMediaItem => Boolean(media && (media.videoSrc || media.src)));
 
   const [showSwipeHint, setShowSwipeHint] = useState(false);
+  const [previewImage, setPreviewImage] = useState<LightboxImage | null>(null);
   useEffect(() => {
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     if (isTouch) {
@@ -182,13 +191,38 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
               ? "(max-width: 768px) 100vw, 95vw"
               : "(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 800px";
 
+            const isClickableImage = media.type === "image";
+            const openPreview = () => {
+              if (!isClickableImage) return;
+              setPreviewImage({
+                src: media.fullSrc || media.src,
+                alt: media.alt || projectTitle,
+              });
+            };
+
             return (
               <article
                 key={media.id || `media-${index}`}
                 className={`group flex flex-col ${spanClass}`}
               >
                 <div
+                  onClick={isClickableImage ? openPreview : undefined}
+                  onKeyDown={
+                    isClickableImage
+                      ? (e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            openPreview();
+                          }
+                        }
+                      : undefined
+                  }
+                  role={isClickableImage ? "button" : undefined}
+                  tabIndex={isClickableImage ? 0 : undefined}
+                  aria-label={isClickableImage ? `Preview ${media.alt || projectTitle}` : undefined}
                   className={`relative w-full overflow-hidden rounded-lg sm:rounded-xl bg-carbon/60 border border-titanium/15 transition-all duration-500 group-hover:border-off-white/40 ${
+                    isClickableImage ? "cursor-pointer" : ""
+                  } ${
                     media.aspect === "landscape"
                       ? spanClass === "md:col-span-12"
                         ? "aspect-[16/9] sm:aspect-[21/9]"
@@ -222,6 +256,11 @@ export const PhotoGallery: React.FC<PhotoGalleryProps> = ({
           })}
         </div>
       )}
+
+      <ImageLightboxModal
+        image={previewImage}
+        onClose={() => setPreviewImage(null)}
+      />
     </div>
   );
 };

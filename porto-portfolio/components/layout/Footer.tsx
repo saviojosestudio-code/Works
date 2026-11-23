@@ -59,13 +59,6 @@ function XIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Profile", href: "/about" },
-  { name: "Works", href: "/work" },
-  { name: "Contact", href: "/#contact" },
-];
-
 export const Footer: React.FC<FooterProps> = ({ settings }) => {
   const { profile } = RAPHREV_DATA;
 
@@ -175,7 +168,7 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
           {/* 2. Thin Horizontal Divider with Subtle Cyan Accent */}
           <div className="relative w-full h-px my-8 sm:my-10 bg-gradient-to-r from-cyan-400/40 via-white/10 to-transparent" />
 
-          {/* 3. Bottom Navigation and Social Links */}
+          {/* 3. Bottom Social Links */}
           <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
             {/* Social Media Links (Left) */}
             <div className="flex items-center gap-2">
@@ -207,22 +200,6 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
                 <XIcon className="w-4 h-4" />
               </a>
             </div>
-
-            {/* Primary Navigation Links (Right) */}
-            <nav
-              aria-label="Footer Navigation"
-              className="flex flex-wrap items-center justify-center sm:justify-end gap-6 sm:gap-8"
-            >
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  href={link.href}
-                  className="text-xs sm:text-sm font-medium tracking-wide uppercase text-titanium hover:text-off-white transition-colors duration-200"
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </nav>
           </div>
         </div>
       </div>

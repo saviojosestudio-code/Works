@@ -6,6 +6,10 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import GlassFolder from "@/components/ui/glass-folder-cards";
+import { ResumeModal } from "@/components/ui/resume-modal";
+
+const RESUME_FILES = [{ name: "Ajay Johnson CV.pdf", meta: "PDF" }];
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
@@ -15,13 +19,14 @@ export const Header: React.FC = () => {
 
   const [activeSection, setActiveSection] = useState<string>("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [resumeModalOpen, setResumeModalOpen] = useState<boolean>(false);
   const [visible, setVisible] = useState<boolean>(true);
   const lastScrollY = useRef<number>(0);
 
-  // Hide on scroll down, show on scroll up (disabled when mobile menu is open)
+  // Hide on scroll down, show on scroll up (disabled when mobile menu or resume modal is open)
   useEffect(() => {
     const handleScroll = () => {
-      if (mobileMenuOpen) return;
+      if (mobileMenuOpen || resumeModalOpen) return;
       const currentY = window.scrollY;
       if (currentY > lastScrollY.current && currentY > 60) {
         setVisible(false);
@@ -33,7 +38,7 @@ export const Header: React.FC = () => {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, resumeModalOpen]);
 
   // Lock body scroll and handle Escape key when mobile menu is open
   useEffect(() => {
@@ -158,8 +163,8 @@ export const Header: React.FC = () => {
           />
         </Link>
 
-        {/* Desktop Navigation — plain text links */}
-        <nav className="hidden sm:flex items-center gap-8 flex-shrink-0 whitespace-nowrap">
+        {/* Desktop Navigation — plain text links + Resume Glass Folder */}
+        <nav className="hidden sm:flex items-center gap-5 md:gap-8 flex-shrink-0 whitespace-nowrap">
           {navItems.map((item) => (
             <Link
               key={item.name}
@@ -174,6 +179,46 @@ export const Header: React.FC = () => {
               {item.name}
             </Link>
           ))}
+
+          {/* Resume Glass Folder Trigger */}
+          <div className="relative -mt-1.5 flex items-center" title="View Resume">
+            <style>{`
+              .header-resume-folder .gf-label {
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 36px !important;
+                max-width: none !important;
+                align-items: center !important;
+                text-align: center !important;
+              }
+              .header-resume-folder .gf-title {
+                font-size: 56px !important;
+                font-weight: 700 !important;
+                letter-spacing: 0.08em !important;
+                color: #ffffff !important;
+                text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+              }
+              .header-resume-folder .gf-meta {
+                display: none !important;
+              }
+            `}</style>
+            <GlassFolder
+              className="header-resume-folder"
+              width={56}
+              tone="dark"
+              art="aurora"
+              seed={3}
+              action="none"
+              label="RESUME"
+              meta=""
+              appear={false}
+              open={false}
+              onOpenChange={(next) => {
+                if (next) setResumeModalOpen(true);
+              }}
+              files={RESUME_FILES}
+            />
+          </div>
         </nav>
 
         {/* Mobile Hamburger Toggle Button */}
@@ -234,6 +279,38 @@ export const Header: React.FC = () => {
                   </Link>
                 </motion.div>
               ))}
+
+              {/* Mobile Resume Glass Folder Item */}
+              <motion.div
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.04 * navItems.length, duration: 0.2 }}
+              >
+                <div className="flex items-center justify-between pb-4 border-b border-titanium/15">
+                  <GlassFolder
+                    className="header-resume-folder"
+                    width={76}
+                    tone="dark"
+                    art="aurora"
+                    seed={3}
+                    action="none"
+                    label="RESUME"
+                    meta=""
+                    appear={false}
+                    open={false}
+                    onOpenChange={(next) => {
+                      if (next) {
+                        setMobileMenuOpen(false);
+                        setResumeModalOpen(true);
+                      }
+                    }}
+                    files={RESUME_FILES}
+                  />
+                  <span className="text-xs font-mono text-titanium font-normal">
+                    0{navItems.length + 1}
+                  </span>
+                </div>
+              </motion.div>
             </nav>
 
             <motion.div
@@ -256,6 +333,12 @@ export const Header: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Resume PDF Preview Modal */}
+      <ResumeModal
+        open={resumeModalOpen}
+        onClose={() => setResumeModalOpen(false)}
+      />
     </header>
   );
 };
