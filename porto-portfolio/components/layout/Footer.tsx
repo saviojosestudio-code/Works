@@ -29,36 +29,6 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-function FacebookIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-      aria-hidden="true"
-    >
-      <path
-        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-        fillRule="evenodd"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-function XIcon({ className = "w-4 h-4" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}
-
 export const Footer: React.FC<FooterProps> = ({ settings }) => {
   const { profile } = RAPHREV_DATA;
 
@@ -69,15 +39,6 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
   const instagramUrl =
     socials.find((s) => s.name.toLowerCase().includes("instagram"))?.url ||
     "https://instagram.com";
-  const facebookUrl =
-    socials.find((s) => s.name.toLowerCase().includes("facebook"))?.url ||
-    "https://facebook.com";
-  const xUrl =
-    socials.find(
-      (s) =>
-        s.name.toLowerCase().includes("twitter") ||
-        s.name.toLowerCase().includes("x")
-    )?.url || "https://x.com";
 
 
   return (
@@ -130,12 +91,12 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
               <h4 className="text-[11px] sm:text-xs font-mono font-medium uppercase tracking-widest text-titanium mb-3 sm:mb-4">
                 Email
               </h4>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 {emails.map((email) => (
                   <a
                     key={email}
                     href={`mailto:${email}`}
-                    className="text-xs sm:text-sm font-normal text-off-white hover:text-white transition-colors duration-200 block break-all"
+                    className="text-sm sm:text-[15px] font-medium text-off-white/95 hover:text-white tracking-wide transition-colors duration-200 block break-all"
                   >
                     {email}
                   </a>
@@ -148,17 +109,17 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
               <h4 className="text-[11px] sm:text-xs font-mono font-medium uppercase tracking-widest text-titanium mb-3 sm:mb-4">
                 Phone
               </h4>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 {phones.map((phone) => (
                   <a
                     key={`${phone.label}-${phone.number}`}
                     href={`tel:${phone.number.replace(/\s+/g, "")}`}
-                    className="text-xs sm:text-sm font-normal text-off-white hover:text-white transition-colors duration-200 block"
+                    className="text-sm sm:text-[15px] font-medium text-off-white/95 hover:text-white transition-colors duration-200 inline-flex items-baseline gap-2.5"
                   >
-                    <span className="text-titanium text-[10px] sm:text-xs font-mono uppercase tracking-wider mr-2">
+                    <span className="text-titanium text-[11px] font-mono font-medium uppercase tracking-wider min-w-[44px]">
                       {phone.label}
                     </span>
-                    <span>{phone.number}</span>
+                    <span className="tracking-wide">{phone.number}</span>
                   </a>
                 ))}
               </div>
@@ -168,38 +129,24 @@ export const Footer: React.FC<FooterProps> = ({ settings }) => {
           {/* 2. Thin Horizontal Divider with Subtle Cyan Accent */}
           <div className="relative w-full h-px my-8 sm:my-10 bg-gradient-to-r from-cyan-400/40 via-white/10 to-transparent" />
 
-          {/* 3. Bottom Social Links */}
-          <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
-            {/* Social Media Links (Left) */}
-            <div className="flex items-center gap-2">
-              <a
-                href={instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="text-titanium hover:text-off-white hover:bg-white/5 p-2 rounded-lg transition-all duration-200"
-              >
-                <InstagramIcon className="w-4 h-4" />
-              </a>
-              <a
-                href={facebookUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="text-titanium hover:text-off-white hover:bg-white/5 p-2 rounded-lg transition-all duration-200"
-              >
-                <FacebookIcon className="w-4 h-4" />
-              </a>
-              <a
-                href={xUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="X (formerly Twitter)"
-                className="text-titanium hover:text-off-white hover:bg-white/5 p-2 rounded-lg transition-all duration-200"
-              >
-                <XIcon className="w-4 h-4" />
-              </a>
-            </div>
+          {/* 3. Bottom Copyright & Social Link */}
+          <div className="relative flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            {/* Copyright (Left) */}
+            <p className="text-xs sm:text-[13px] text-titanium/90 tracking-wide">
+              &copy; 2026 RAPHREV. All rights reserved.
+            </p>
+
+            {/* Instagram Link (Right) */}
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Follow RAPHREV on Instagram"
+              className="inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-titanium hover:text-off-white hover:bg-white/5 px-2.5 py-1.5 -ml-2.5 sm:ml-0 sm:-mr-2.5 rounded-lg transition-all duration-200"
+            >
+              <InstagramIcon className="w-4 h-4 shrink-0" />
+              <span>Instagram</span>
+            </a>
           </div>
         </div>
       </div>
