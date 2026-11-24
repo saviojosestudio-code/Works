@@ -74,7 +74,14 @@ export default function RootLayout({
       className={`${montserrat.variable} ${moonWalk.variable} scroll-smooth dark`}
     >
       <body className="min-h-screen text-off-white font-sans antialiased">
-        <div className="fixed inset-0 z-0 pointer-events-none">
+        <div
+          className="fixed inset-0 z-0 pointer-events-none min-h-[100lvh]"
+          style={{
+            transform: "translate3d(0, 0, 0)",
+            backfaceVisibility: "hidden",
+            contain: "strict",
+          }}
+        >
           <RibbonFieldBackground 
             speed={1.00}
             pointerAmount={1.00}
